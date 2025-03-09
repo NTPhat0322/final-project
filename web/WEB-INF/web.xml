@@ -52,6 +52,26 @@
         <servlet-name>DeleteCarServlet</servlet-name>
         <servlet-class>controller.DeleteCarServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreatePartServlet</servlet-name>
+        <servlet-class>controller.CreatePartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchPartServlet</servlet-name>
+        <servlet-class>controller.SearchPartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeletePartServlet</servlet-name>
+        <servlet-class>controller.DeletePartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdatePartServlet</servlet-name>
+        <servlet-class>controller.UpdatePartServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdatePartServlet1</servlet-name>
+        <servlet-class>controller.UpdatePartServlet1</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
         <url-pattern>/LoginStaffServlet</url-pattern>
@@ -103,6 +123,26 @@
     <servlet-mapping>
         <servlet-name>DeleteCarServlet</servlet-name>
         <url-pattern>/DeleteCarServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePartServlet</servlet-name>
+        <url-pattern>/CreatePartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchPartServlet</servlet-name>
+        <url-pattern>/SearchPartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeletePartServlet</servlet-name>
+        <url-pattern>/DeletePartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdatePartServlet</servlet-name>
+        <url-pattern>/UpdatePartServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdatePartServlet1</servlet-name>
+        <url-pattern>/UpdatePartServlet1</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
