@@ -24,7 +24,7 @@
     </head>
     <body>
         <div class="head-page">
-            <h1>Update car page</h1>
+            <h1>Updating car page</h1>
             <a href="MainServlet?action=salePersonDashBoard">Back to sale person dashboard</a>
         </div>
         <%
@@ -40,9 +40,24 @@
             Car c = cD.getCarByCarID(carID);
         %>
         <p>Car before updating</p>
-        <div><%= c.toString() %></div>
+        <table border="1">
+            <tr>
+                <th>Car ID</th>
+                <th>Car Number</th>
+                <th>Car Model</th>
+                <th>Car Color</th>
+                <th>Car Year</th>
+            </tr>
+            <tr>
+                <td><%= c.getCarID()%></td>
+                <td><%= c.getSerialNumber()%></td>
+                <td><%= c.getModel()%></td>
+                <td><%= c.getColour()%></td>
+                <td><%= c.getYear()%></td>
+            </tr>
+        </table>
         
-        <p>*If you do not want to update, you make it blank</p>
+        <p style="color: red">*If you do not want to update, you make it blank</p>
         
         <form action="MainServlet">
             <div>
@@ -87,14 +102,7 @@
             if(result != null) {
         %>
         <h5><%= result %></h5>
-        <%
-                Car newCar = (Car)request.getAttribute("newCar");
-                if(newCar != null) {
-        %>
-        <h5>Car after updating</h5>
-        <p><%= newCar.toString() %></p>
-        <%
-                }
+        <%      
             }
         %>
     </body>

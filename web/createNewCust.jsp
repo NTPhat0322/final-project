@@ -34,7 +34,7 @@
         %>
         
         <div class="head-page">
-            <h1>create cust</h1>
+            <h1>Creating customer page</h1>
             <a href="MainServlet?action=salePersonDashBoard">Back to sale person dashboard</a>
         </div>
         

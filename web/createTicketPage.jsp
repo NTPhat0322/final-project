@@ -1,4 +1,4 @@
-<%-- 
+    <%-- 
     Document   : createTicketPage
     Created on : Feb 25, 2025, 3:53:56 PM
     Author     : ASUS
@@ -76,7 +76,11 @@
                     <%
                         for (Customer c : custList) {
                     %>
-                    <option value="<%= c.getCustID()%>"><%= c.toString()%></option>
+                    <option value="<%= c.getCustID()%>">
+                        ID: <%= c.getCustID()%>,
+                        Name: <%= c.getCustName() %>,
+                        Phone: <%= c.getCustPhone()%>
+                    </option>
                     <%
                         }
                     %>
