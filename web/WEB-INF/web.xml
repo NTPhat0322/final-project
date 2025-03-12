@@ -80,6 +80,10 @@
         <servlet-name>LogoutCustomerServlet</servlet-name>
         <servlet-class>controller.LogoutCustomerServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreateInvoiceServlet</servlet-name>
+        <servlet-class>controller.CreateInvoiceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
         <url-pattern>/LoginStaffServlet</url-pattern>
@@ -159,6 +163,10 @@
     <servlet-mapping>
         <servlet-name>LogoutCustomerServlet</servlet-name>
         <url-pattern>/LogoutCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateInvoiceServlet</servlet-name>
+        <url-pattern>/CreateInvoiceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

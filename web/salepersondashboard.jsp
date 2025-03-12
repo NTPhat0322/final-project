@@ -48,6 +48,9 @@
                 <h3>Function for parts</h3>
                 <div><a href="MainServlet?action=searchPart">Search part</a></div>
                 <div><a href="MainServlet?action=createPartPage">Create part</a></div>
+                
+                <h3>Create invoice for customer</h3>
+                <div><a href="MainServlet?action=createInvoicePage">Create Invoice</a></div>
         <%
             }else {
                 request.getRequestDispatcher("MainServlet?action=home").forward(request, response);
