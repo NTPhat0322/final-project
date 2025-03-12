@@ -72,6 +72,14 @@
         <servlet-name>UpdatePartServlet1</servlet-name>
         <servlet-class>controller.UpdatePartServlet1</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginCustServlet</servlet-name>
+        <servlet-class>controller.LoginCustServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutCustomerServlet</servlet-name>
+        <servlet-class>controller.LogoutCustomerServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
         <url-pattern>/LoginStaffServlet</url-pattern>
@@ -143,6 +151,14 @@
     <servlet-mapping>
         <servlet-name>UpdatePartServlet1</servlet-name>
         <url-pattern>/UpdatePartServlet1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginCustServlet</servlet-name>
+        <url-pattern>/LoginCustServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutCustomerServlet</servlet-name>
+        <url-pattern>/LogoutCustomerServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

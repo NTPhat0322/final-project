@@ -51,6 +51,9 @@ public class MainServlet extends HttpServlet {
                 case "loginStaff":
                     url = "LoginStaffServlet";
                     break;
+                case "customerDashboard":
+                    url = "customerDashboard.jsp";
+                    break;
                 case "salePersonDashBoard":
                     url = "salepersondashboard.jsp";
                     break;
@@ -59,6 +62,9 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "logout":
                     url = "LogoutStaffServlet";
+                    break;
+                case "logoutcust":
+                    url = "LogoutCustomerServlet";
                     break;
                     
                 //---------------------------
