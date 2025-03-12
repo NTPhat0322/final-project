@@ -72,6 +72,14 @@
         <servlet-name>UpdatePartServlet1</servlet-name>
         <servlet-class>controller.UpdatePartServlet1</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginMechanicServlet</servlet-name>
+        <servlet-class>controller.LoginMechanicServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateServiceTicketServlet</servlet-name>
+        <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
         <url-pattern>/LoginStaffServlet</url-pattern>
@@ -143,6 +151,14 @@
     <servlet-mapping>
         <servlet-name>UpdatePartServlet1</servlet-name>
         <url-pattern>/UpdatePartServlet1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginMechanicServlet</servlet-name>
+        <url-pattern>/LoginMechanicServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateServiceTicketServlet</servlet-name>
+        <url-pattern>/UpdateServiceTicketServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

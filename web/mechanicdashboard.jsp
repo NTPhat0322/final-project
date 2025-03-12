@@ -15,16 +15,22 @@
     <body>
         <%
             HttpSession s = request.getSession();
-            Mechanic m = (Mechanic)s.getAttribute("mechanic");
+            Mechanic m = (Mechanic) s.getAttribute("mechanic");
             if (m == null) {
         %>
-                <h2>You are not valid</h2>
+        <h2>You are not valid</h2>
         <%
             } else {
         %>
-                <h2>welcome to mechanic dashboard</h2>
+        <h2>welcome to mechanic dashboard</h2>
+        <ul>
+            <li><a href="ViewServiceTickets.jsp">View Service Ticket</a></li>
+            <li><a href="SearchServiceTicket.jsp">Search Service Ticket</a></li>
+            <li><a href="crud_services.jsp">CRUD Services</a></li>
+        </ul>
         <%
             }
         %>
+
     </body>
 </html>
