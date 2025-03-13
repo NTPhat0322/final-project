@@ -1,5 +1,6 @@
 package dao;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.ServiceTicket;
+import model.ServiceTicketDetail;
 import mylib.DBUtils;
 
 public class ServiceTicketDAO {
@@ -135,6 +137,62 @@ public class ServiceTicketDAO {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public List<ServiceTicketDetail> getServiceTicketsDetailByMechanicName(String id) {
+        List<ServiceTicketDetail> list = new ArrayList<>();
+        String sql = "SELECT st.serviceTicketID, dateReceived, dateReturned, custID, carID, sm.hours, sm.comment, sm.rate "
+                + "FROM [dbo].[ServiceTicket] st "
+                + "JOIN [dbo].[ServiceMehanic] sm ON st.serviceTicketID = sm.serviceTicketID "
+                + "WHERE sm.mechanicID = ?;";
+
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            // **Thiết lập giá trị cho tham số "?"**
+            stmt.setString(1, id);
+
+            // **Thực thi truy vấn**
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new ServiceTicketDetail(
+                            rs.getString("serviceTicketID"),
+                            rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
+                            rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
+                            rs.getInt("custID"),
+                            rs.getInt("carID"),
+                            rs.getInt("hours"),
+                            rs.getString("comment"),
+                            rs.getBigDecimal("rate")
+                    ));
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public void updateServiceTicket(String serviceTicketID, int hours, String comment, BigDecimal rate) {
+        String sql = "UPDATE ServiceMehanic SET hours = ?, comment = ?, rate = ? WHERE serviceTicketID = ?";
+
+        try (Connection conn = DBUtils.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, hours);
+            stmt.setString(2, comment);
+            stmt.setBigDecimal(3, rate);
+            stmt.setString(4, serviceTicketID);
+
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Cập nhật thành công!");
+            } else {
+                System.out.println("Không tìm thấy ServiceTicket để cập nhật!");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -43,12 +43,12 @@ public class LoginMechanicServlet extends HttpServlet {
             if (mc != null) {
                 //có dữ liệu thì lưu thông tin vào session
                 //login thành công
-                HttpSession s = request.getSession(true);
+                HttpSession s = request.getSession();
                 s.setAttribute("mechanic", mc);
                 request.getRequestDispatcher("MainServlet?action=mechanicDashBoard").forward(request, response);
             } else {
                 request.setAttribute("ERROR", "Tên không hợp lệ!");
-                request.getRequestDispatcher("LoginMechanic.jsp").forward(request, response);
+                request.getRequestDispatcher("MainServet?action=loginMechanic").forward(request, response);
             }
         }
     }

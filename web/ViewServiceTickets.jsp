@@ -4,6 +4,7 @@
     Author     : admin
 --%>
 
+<%@page import="model.ServiceTicketDetail"%>
 <%@page import="model.Mechanic"%>
 <%@page import="java.util.List"%>
 <%@page import="model.ServiceTicket"%>
@@ -19,11 +20,14 @@
         <h1>Danh sách Service Ticket</h1>
         <table border="1">
             <tr>
-                <th>ID</th>
+                <th>Service Ticket ID</th>
                 <th>Date Received</th>
                 <th>Date Returned</th>
-                <th>Customer ID</th>
-                <th>Car ID</th>
+                <th>CustID</th>
+                <th>CarID</th>
+                <th>Hours</th>
+                <th>Comment</th>
+                <th>Rate</th>
                 <th>Action</th>
             </tr>
             <%
@@ -35,31 +39,38 @@
                     return;
                 }
 
-                String mechanicName = mechanic.getName();
+                String mechanicID = mechanic.getId();
                 ServiceTicketDAO dao = new ServiceTicketDAO();
-                List<ServiceTicket> tickets = dao.getServiceTicketsByMechanicName(mechanicName);
+                List<ServiceTicketDetail> tickets = dao.getServiceTicketsDetailByMechanicName(mechanicID);
 
                 // Duyệt danh sách và hiển thị từng ticket
-                for (ServiceTicket ticket : tickets) {
+                for (ServiceTicketDetail ticket : tickets) {
             %>
             <tr>
-                <td><%= ticket.getSeviceTicketID()%></td>
+                <td><%= ticket.getServiceTicketID()%></td>
                 <td><%= ticket.getDateReceived()%></td>
                 <td><%= ticket.getDateReturned()%></td>
                 <td><%= ticket.getCustID()%></td>
                 <td><%= ticket.getCarID()%></td>
-
-
                 <td>
-                    <a href="UpdateServiceTicketServlet?ticketID=<%= ticket.getSeviceTicketID()%>">
-                        Update
-                    </a>
+                    <form id="form-<%= ticket.getServiceTicketID()%>" action="UpdateServiceTicketServlet" method="post">
+                        <input type="hidden" name="serviceTicketID" value="<%= ticket.getServiceTicketID()%>">
+                        <input type="number" name="hours" value="<%= ticket.getHours()%>">
+                        </td>
+                        <td>
+                            <input type="text" name="comment" value="<%= ticket.getComment() == null ? "" : ticket.getComment()%>">
+                        </td>
+                        <td>
+                            <input type="number" name="rate" value="<%= ticket.getRate()%>">
+                        </td>
+                        <td>
+                            <button type="submit">Update</button>
+                    </form>
                 </td>
-
             </tr>
             <% }%>
         </table>
-        <a href="mechanicDashboard.jsp">Quay lại</a>
+        <a href="mechanicdashboard.jsp">Quay lại</a>
     </body>
 </html>
 

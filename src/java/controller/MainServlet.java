@@ -143,6 +143,8 @@ public class MainServlet extends HttpServlet {
                 case "updatePart1":
                     url = "UpdatePartServlet1";
                     break;
+                case "loginMechanic":
+                    url = "LoginMechanic.jsp";
             }
             request.getRequestDispatcher(url).forward(request, response);
         }
