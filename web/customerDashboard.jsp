@@ -20,7 +20,7 @@
             if(c != null){
         %>
         <h1>Welcome <%= c.getCustName() %></h1>
-        <p><a href="#">View invoice</a></p>
+        <p><a href="MainServlet?action=viewinvoice&custid=<%= c.getCustID() %>">View invoice</a></p>
         <%
             }else{
                 request.getRequestDispatcher("MainServlet?action=home").forward(request, response);

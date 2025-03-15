@@ -158,7 +158,12 @@ public class MainServlet extends HttpServlet {
                 case "reportPage":
                     url = "report.jsp";
                     break;
-                    
+                case "viewinvoicePage":
+                    url = "viewInvoice.jsp";
+                    break;
+                case "viewinvoice":
+                    url = "ViewInvoiceServlet";
+                    break;
             }
             request.getRequestDispatcher(url).forward(request, response);
         }

@@ -84,6 +84,10 @@
         <servlet-name>CreateInvoiceServlet</servlet-name>
         <servlet-class>controller.CreateInvoiceServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ViewInvoiceServlet</servlet-name>
+        <servlet-class>controller.ViewInvoiceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
         <url-pattern>/LoginStaffServlet</url-pattern>
@@ -167,6 +171,10 @@
     <servlet-mapping>
         <servlet-name>CreateInvoiceServlet</servlet-name>
         <url-pattern>/CreateInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewInvoiceServlet</servlet-name>
+        <url-pattern>/ViewInvoiceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
