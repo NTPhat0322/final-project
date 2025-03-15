@@ -10,6 +10,10 @@ import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import mylib.DBUtils;
 
 /**
@@ -47,6 +51,106 @@ public class SaleInvoiceDAO {
                 e.printStackTrace();
             }
         }
+        return rs;
+    }
+    
+    public HashMap getCarSoldByYear(){
+        HashMap<Integer, Integer> rs = new HashMap<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT YEAR(invoiceDate) AS NAM, COUNT(carID) AS SL FROM [dbo].[SalesInvoice]\n" +
+                            "GROUP BY YEAR(invoiceDate)";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet table = pst.executeQuery();
+                if(table != null){
+                    while(table.next()){
+                        rs.put(table.getInt("NAM"), table.getInt("SL"));
+                    }
+                }
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        
+        return rs;
+    }
+    
+    public HashMap getRevenueByYear(){
+        HashMap<Integer, Double> rs = new HashMap<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT YEAR(A.invoiceDate) AS T_Year, SUM(B.price) AS Revenue FROM SalesInvoice A LEFT OUTER JOIN Cars B ON A.carID = B.carID\n" +
+                                "GROUP BY YEAR(A.invoiceDate)\n" +
+                                "order by T_Year";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet table = pst.executeQuery();
+                if(table != null){
+                    while(table.next()){
+                        rs.put(table.getInt("T_Year"), table.getDouble("Revenue"));
+                    }
+                }
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        return rs;
+    }
+    
+    public LinkedHashMap getBestSaler(){
+        LinkedHashMap<String, Integer> rs = new LinkedHashMap<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT TOP 5 B.model AS Model, COUNT(A.carID) AS NoUS FROM SalesInvoice A LEFT OUTER JOIN Cars B ON A.carID = B.carID\n" +
+                                "GROUP BY B.model\n" +
+                                "ORDER BY NoUS DESC";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet table = pst.executeQuery();
+                if(table != null){
+                    while(table.next()){
+                        rs.put(table.getString("Model"), table.getInt("NoUS"));
+                    }
+                }
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        
         return rs;
     }
 }

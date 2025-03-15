@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import model.Part;
 import mylib.DBUtils;
 
@@ -194,5 +195,39 @@ public class PartDAO {
                 e.printStackTrace();
             }
         }
+    }
+    
+    public LinkedHashMap getBestUsedParts(){
+        LinkedHashMap<String, Integer> rs = new LinkedHashMap<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT TOP 5 B.partName AS pName, COUNT(A.partID) AS soluong FROM PartsUsed A LEFT OUTER JOIN Parts B ON A.partID = B.partID\n" +
+                                "GROUP BY B.partName\n" +
+                                "ORDER BY soluong DESC";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                ResultSet table = pst.executeQuery();
+                if(table != null){
+                    while(table.next()){
+                        rs.put(table.getString("pName"), table.getInt("soluong"));
+                    }
+                }
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        
+        return rs;
     }
 }

@@ -51,6 +51,7 @@
                 
                 <h3>Create invoice for customer</h3>
                 <div><a href="MainServlet?action=createInvoicePage">Create Invoice</a></div>
+                <div><a href="MainServlet?action=reportPage">Report</a></div>
         <%
             }else {
                 request.getRequestDispatcher("MainServlet?action=home").forward(request, response);
