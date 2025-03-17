@@ -40,8 +40,9 @@ public class MainServlet extends HttpServlet {
                     url = "index.jsp";
                     break;
                 case "loginCustForm":
-                    url = "logincustpage.jsp";
+                    url = "loginCustomer.jsp";
                     break;
+//                    
                 case "loginStaffForm":
                     url = "loginstaffpage.jsp";
                     break;
@@ -149,6 +150,7 @@ public class MainServlet extends HttpServlet {
                 case "updatePart1":
                     url = "UpdatePartServlet1";
                     break;
+//                    
                 case "loginMechanic":
                     url = "LoginMechanic.jsp";
                     break;

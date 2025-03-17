@@ -58,7 +58,7 @@
                 <td><%= c.getCustAddress()%></td>
             </tr>
         </table>
-        <form action="MainServlet">
+            <form action="MainServlet" accept-charset="UTF-8">
             <p style="color: red">*If you do not want to update, you make it blank</p>
             <div><input type="text" name="nCustName" placeholder="enter new cust name"></div>
             <div><input type="text" name="nCustPhone" placeholder="enter new cust phone" pattern="[0-9]+"></div>

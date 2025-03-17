@@ -77,7 +77,7 @@ public class MechanicDAO {
             e.printStackTrace();
         }
         return list;
-    
+    }
     public LinkedHashMap getMechanicGood(){
         LinkedHashMap<String, Integer> rs = new LinkedHashMap<>();
         Connection cn = null;

@@ -33,6 +33,7 @@ public class UpdateCustServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            request.setCharacterEncoding("UTF-8");
             String idS = request.getParameter("custID");
             String name = request.getParameter("nCustName");
             String phone = request.getParameter("nCustPhone");
