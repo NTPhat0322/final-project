@@ -5,21 +5,23 @@
  */
 package controller;
 
-import dao.MechanicDAO;
+import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Mechanic;
+import model.Service;
 
 /**
  *
  * @author admin
  */
-public class LoginMechanicServlet extends HttpServlet {
+public class ServiceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,23 +35,22 @@ public class LoginMechanicServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String name = request.getParameter("name");
-            MechanicDAO md = new MechanicDAO();
-            Mechanic mc = md.getMechanicByName(name);
-            if (mc != null) {
-                //có dữ liệu thì lưu thông tin vào session
-                //login thành công
-                HttpSession s = request.getSession();
-                s.setAttribute("mechanic", mc);
-                request.getRequestDispatcher("MainServlet?action=mechanicDashBoard").forward(request, response);
-            } else {
-                request.setAttribute("ERROR", "Tên không hợp lệ!");
-                request.getRequestDispatcher("MainServlet?action=loginMechanic").forward(request, response);
+            HttpSession session = request.getSession();
+            Mechanic m = (Mechanic) session.getAttribute("mechanic");
+            String mechanicID = m.getId();
+
+            if (mechanicID == null) {
+                response.sendRedirect("LoginMechanic.jsp");
+                return;
             }
+
+            ServiceDAO serviceDAO = new ServiceDAO();
+            List<Service> services = serviceDAO.getServicesByMechanic(mechanicID);
+
+            request.setAttribute("services", services);
+            request.getRequestDispatcher("ViewServices.jsp").forward(request, response);
         }
     }
 

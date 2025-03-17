@@ -5,21 +5,25 @@
  */
 package controller;
 
-import dao.MechanicDAO;
+import dao.ServiceTicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.util.List;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Mechanic;
+import model.ServiceTicket;
+import model.ServiceTicketDetail;
 
 /**
  *
  * @author admin
  */
-public class LoginMechanicServlet extends HttpServlet {
+@WebServlet(name = "editServiceTicketServlet", urlPatterns = {"/editServiceTicketServlet"})
+public class editServiceTicketServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,24 +37,23 @@ public class LoginMechanicServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String name = request.getParameter("name");
-            MechanicDAO md = new MechanicDAO();
-            Mechanic mc = md.getMechanicByName(name);
-            if (mc != null) {
-                //có dữ liệu thì lưu thông tin vào session
-                //login thành công
-                HttpSession s = request.getSession();
-                s.setAttribute("mechanic", mc);
-                request.getRequestDispatcher("MainServlet?action=mechanicDashBoard").forward(request, response);
-            } else {
-                request.setAttribute("ERROR", "Tên không hợp lệ!");
-                request.getRequestDispatcher("MainServlet?action=loginMechanic").forward(request, response);
-            }
+            int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+            int hours = Integer.parseInt(request.getParameter("hours"));
+            String comment = request.getParameter("comment");
+            BigDecimal rate = new BigDecimal(request.getParameter("rate"));
+            
+            ServiceTicketDAO dao = new ServiceTicketDAO();
+            dao.updateServiceTicket(ticketID, hours, comment, rate);
+            
+            response.sendRedirect("ViewServiceTickets.jsp"); // Quay lại danh sách
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().println("Error updating service ticket.");
         }
+
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

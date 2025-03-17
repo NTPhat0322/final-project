@@ -9,6 +9,7 @@ import dao.ServiceTicketDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,9 +34,17 @@ public class UpdateServiceTicketServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            // Lấy ID của Service Ticket
+        try (PrintWriter out = response.getWriter()) { 
+            String ticketID = request.getParameter("ticketID");
+            int hours = Integer.parseInt(request.getParameter("hours"));
+            String comment = request.getParameter("comment");
+            BigDecimal rate = new BigDecimal(request.getParameter("rate"));
+
+            ServiceTicketDAO dao = new ServiceTicketDAO();
+            dao.updateServiceTicket(ticketID, hours, comment, rate);
+
+            // Chuyển hướng về danh sách vé dịch vụ sau khi cập nhật thành công
+            response.sendRedirect("editServiceTicket.jsp");
         }
     }
         // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

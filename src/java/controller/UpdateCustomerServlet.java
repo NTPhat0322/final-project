@@ -5,7 +5,7 @@
  */
 package controller;
 
-import dao.MechanicDAO;
+import dao.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Mechanic;
+import model.Customer;
 
 /**
  *
  * @author admin
  */
-public class LoginMechanicServlet extends HttpServlet {
+public class UpdateCustomerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,27 +33,30 @@ public class LoginMechanicServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String name = request.getParameter("name");
-            MechanicDAO md = new MechanicDAO();
-            Mechanic mc = md.getMechanicByName(name);
-            if (mc != null) {
-                //có dữ liệu thì lưu thông tin vào session
-                //login thành công
-                HttpSession s = request.getSession();
-                s.setAttribute("mechanic", mc);
-                request.getRequestDispatcher("MainServlet?action=mechanicDashBoard").forward(request, response);
+            HttpSession session = request.getSession();
+            Customer c = (Customer) session.getAttribute("customer");
+            int custID = c.getCustID();
+            String custName = request.getParameter("custName");
+            String phone = request.getParameter("phone");
+            String sex = request.getParameter("sex");
+            String cusAddress = request.getParameter("cusAddress");
+
+            CustomerDAO dao = new CustomerDAO();
+            boolean success = dao.updateCustomer(custID, custName, phone, sex, cusAddress);
+
+            if (success) {
+                session.setAttribute("updateStatus", "Update successful!");
+                response.sendRedirect("HomeCustomer.jsp"); // Chuyển hướng về trang home
             } else {
-                request.setAttribute("ERROR", "Tên không hợp lệ!");
-                request.getRequestDispatcher("MainServlet?action=loginMechanic").forward(request, response);
+                session.setAttribute("updateStatus", "Update failed. Please try again.");
+                response.sendRedirect("customerProfile.jsp"); // Quay lại trang cập nhật
             }
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

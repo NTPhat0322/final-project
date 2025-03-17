@@ -145,6 +145,16 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "loginMechanic":
                     url = "LoginMechanic.jsp";
+                    break;
+                case "updateServiceTicket":
+                    url = "updateServiceTicketPage.jsp";
+                    break;
+                case "editServiceTicket":
+                    url = "editServiceTicketServlet";
+                    break;
+                case "serviceDetail":
+                    url = "serviceTicketDetail.jsp";
+                    break;
             }
             request.getRequestDispatcher(url).forward(request, response);
         }
@@ -155,7 +165,6 @@ public class MainServlet extends HttpServlet {
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
-     * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */

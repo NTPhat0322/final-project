@@ -5,21 +5,19 @@
  */
 package controller;
 
-import dao.MechanicDAO;
+import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Mechanic;
 
 /**
  *
  * @author admin
  */
-public class LoginMechanicServlet extends HttpServlet {
+public class CreateServiceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,22 +31,22 @@ public class LoginMechanicServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String name = request.getParameter("name");
-            MechanicDAO md = new MechanicDAO();
-            Mechanic mc = md.getMechanicByName(name);
-            if (mc != null) {
-                //có dữ liệu thì lưu thông tin vào session
-                //login thành công
-                HttpSession s = request.getSession();
-                s.setAttribute("mechanic", mc);
-                request.getRequestDispatcher("MainServlet?action=mechanicDashBoard").forward(request, response);
+            String serviceName = request.getParameter("serviceName");
+            double hourlyRate = Double.parseDouble(request.getParameter("hourlyRate"));
+
+            // Lưu dịch vụ mới vào cơ sở dữ liệu
+            ServiceDAO serviceDAO = new ServiceDAO();
+            boolean isSuccess = serviceDAO.addService(serviceName, hourlyRate);
+
+            if (isSuccess) {
+                // Điều hướng đến trang danh sách dịch vụ sau khi thêm thành công
+                response.sendRedirect("serviceList.jsp");
             } else {
-                request.setAttribute("ERROR", "Tên không hợp lệ!");
-                request.getRequestDispatcher("MainServlet?action=loginMechanic").forward(request, response);
+                // Nếu có lỗi, quay lại trang tạo dịch vụ mới và hiển thị thông báo lỗi
+                request.setAttribute("errorMessage", "Không thể tạo dịch vụ mới. Vui lòng thử lại.");
+                request.getRequestDispatcher("createService.jsp").forward(request, response);
             }
         }
     }

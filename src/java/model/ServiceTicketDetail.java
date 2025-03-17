@@ -26,7 +26,7 @@ public class ServiceTicketDetail {
     public ServiceTicketDetail() {
     }
 
-    public ServiceTicketDetail(String serviceTicketID, LocalDate dateReceived, LocalDate dateReturned, int carID, int custID, int hours, String comment, BigDecimal rate) {
+    public ServiceTicketDetail(String serviceTicketID, int carID, int custID, LocalDate dateReceived, LocalDate dateReturned, int hours, String comment, BigDecimal rate) {
         this.serviceTicketID = serviceTicketID;
         this.dateReceived = dateReceived;
         this.dateReturned = dateReturned;

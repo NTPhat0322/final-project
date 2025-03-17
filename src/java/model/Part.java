@@ -25,6 +25,13 @@ public class Part {
         this.retailPrice = retailPrice;
     }
 
+    public Part(int partId, String partName) {
+        this.partId = partId;
+        this.partName = partName;
+    }
+    
+    
+
     public int getPartId() {
         return partId;
     }

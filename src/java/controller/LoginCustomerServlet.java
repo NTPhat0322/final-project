@@ -1,11 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+     * To change this license header, choose License Headers in Project Properties.
+     * To change this template file, choose Tools | Templates
+     * and open the template in the editor.
  */
 package controller;
 
-import dao.MechanicDAO;
+import dao.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -13,13 +13,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Mechanic;
+import model.Customer;
 
 /**
  *
  * @author admin
  */
-public class LoginMechanicServlet extends HttpServlet {
+public class LoginCustomerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,19 +37,21 @@ public class LoginMechanicServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String name = request.getParameter("name");
-            MechanicDAO md = new MechanicDAO();
-            Mechanic mc = md.getMechanicByName(name);
-            if (mc != null) {
-                //có dữ liệu thì lưu thông tin vào session
-                //login thành công
-                HttpSession s = request.getSession();
-                s.setAttribute("mechanic", mc);
-                request.getRequestDispatcher("MainServlet?action=mechanicDashBoard").forward(request, response);
+            String custName = request.getParameter("name");
+            String phone = request.getParameter("phone");
+
+            CustomerDAO dao = new CustomerDAO();
+            Customer customer = dao.loginCustomer(custName, phone);
+
+            if (customer != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("customer", customer);
+                response.sendRedirect("HomeCustomer.jsp"); // Chuyển đến trang chính sau khi đăng nhập
             } else {
-                request.setAttribute("ERROR", "Tên không hợp lệ!");
-                request.getRequestDispatcher("MainServlet?action=loginMechanic").forward(request, response);
+                request.setAttribute("ERROR", "Tên hoặc số điện thoại không đúng!");
+                request.getRequestDispatcher("loginCustomer.jsp").forward(request, response);
             }
+
         }
     }
 

@@ -80,6 +80,26 @@
         <servlet-name>UpdateServiceTicketServlet</servlet-name>
         <servlet-class>controller.UpdateServiceTicketServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginCustomerServlet</servlet-name>
+        <servlet-class>controller.LoginCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>serviceTicketsServlet</servlet-name>
+        <servlet-class>controller.serviceTicketsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <servlet-class>controller.UpdateCustomerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ServiceServlet</servlet-name>
+        <servlet-class>controller.ServiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>CreateServiceServlet</servlet-name>
+        <servlet-class>controller.CreateServiceServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
         <url-pattern>/LoginStaffServlet</url-pattern>
@@ -159,6 +179,26 @@
     <servlet-mapping>
         <servlet-name>UpdateServiceTicketServlet</servlet-name>
         <url-pattern>/UpdateServiceTicketServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginCustomerServlet</servlet-name>
+        <url-pattern>/LoginCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>serviceTicketsServlet</servlet-name>
+        <url-pattern>/serviceTicketsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateCustomerServlet</servlet-name>
+        <url-pattern>/UpdateCustomerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ServiceServlet</servlet-name>
+        <url-pattern>/ServiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreateServiceServlet</servlet-name>
+        <url-pattern>/CreateServiceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

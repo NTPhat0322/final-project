@@ -23,8 +23,7 @@ public class PartDAO {
         try {
             cn = DBUtils.getConnection();
             if(cn != null){
-                String sql = "SELECT *\n" +
-                                "FROM [dbo].[Parts]";
+                String sql = "SELECT * from Parts";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 ResultSet table = pst.executeQuery();
                 
