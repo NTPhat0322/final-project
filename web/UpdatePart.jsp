@@ -12,6 +12,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        <style>
+            .form label{
+                display: inline-block;
+                width: 100px;
+            }
+        
+        </style>
     </head>
     <body>
         <%
@@ -25,13 +32,28 @@
         <div>
             <form action="MainServlet">
                 <p>ID: <%= p.getPartId() %></p>
-                <p><input type="hidden" value="updatePart1" name="action"</p>
-                <p><input type="hidden" value="<%= p.getPartId() %>" name="partid"/></p>
-                <p>Part name: <input type="text" name="txtpartname" value="<%= p.getPartName() %>"/></p>
-                <p>Purchaseprice: <input type="text" name="purchaseprice" value="<%= p.getPurchasePrice() %>"/></p>
-                <p>Retailprice: <input type="text" name="retailprice" value="<%= p.getRetailPrice() %>"/></p>
-                <p><input type="submit" value="Update"/></p>
-                <p><a href="MainServlet?action=searchPart">BACK</a></p>
+                <input type="hidden" value="updatePart1" name="action"
+                <input type="hidden" value="<%= p.getPartId() %>" name="partid"/>
+                <div class="form">
+                    <label>Part name: </label>
+                    <input type="text" name="txtpartname" value="<%= p.getPartName() %>"/>
+                </div>
+                <div class="form">
+                    <label>Purchaseprice: </label>
+                    <input type="text" name="purchaseprice" value="<%= p.getPurchasePrice() %>" pattern="^[0-9]+(\.[0-9]{1,3})?$"/>
+                </div>
+                <div class="form">
+                    <label>Retailprice: </label>
+                    <input type="text" name="retailprice" value="<%= p.getRetailPrice() %>" pattern="^[0-9]+(\.[0-9]{1,3})?$"/>
+                </div>
+                <div>
+                    <input type="submit" value="Update"/>
+                </div>
+                
+            </form>
+            <form action="MainServlet">
+                <input type="hidden" value="searchPart" name="action"/>
+                <input type="submit" value="Back"/>
             </form>
         </div>
     </body>
