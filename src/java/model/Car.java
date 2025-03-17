@@ -8,9 +8,21 @@ public class Car{
     private String colour;
     private int year;
     private boolean status;
-
+    private double price;
+    
     public Car() {
     }
+
+    public Car(String carID, String serialNumber, String model, String colour, int year, boolean status, double price) {
+        this.carID = carID;
+        this.serialNumber = serialNumber;
+        this.model = model;
+        this.colour = colour;
+        this.year = year;
+        this.status = status;
+        this.price = price;
+    }
+    
 
     public Car(String carID, String serialNumber, String model, String colour, int year, boolean status) {
         this.carID = carID;
@@ -81,7 +93,16 @@ public class Car{
         this.year = year;
     }
 
+    public double getPrice() {
+        return price;
+    }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "Car{" + "carID=" + carID + ", serialNumber=" + serialNumber + ", model=" + model + ", colour=" + colour + ", year=" + year + '}';

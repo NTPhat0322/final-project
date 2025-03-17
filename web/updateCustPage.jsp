@@ -24,7 +24,7 @@
     </head>
     <body>
         <div class="head-page">
-            <h1>Update customer jsp</h1>
+            <h1>Updating customer page</h1>
             <a href="MainServlet?action=salePersonDashBoard">Back to sale person dashboard</a>
         </div>
         
@@ -42,9 +42,24 @@
             Customer c = d.searchCustById(Integer.parseInt(custID));
         %>
         <p>Customer before updating</p>
-        <div><%= c.toString() %></div>
+        <table border="1">
+            <tr>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Customer Phone</th>
+                <th>Customer Sex</th>
+                <th>Customer Address</th>
+            </tr>
+            <tr>
+                <td><%= c.getCustID() %></td>
+                <td><%= c.getCustName()%></td>
+                <td><%= c.getCustPhone()%></td>
+                <td><%= c.getCustSex()%></td>
+                <td><%= c.getCustAddress()%></td>
+            </tr>
+        </table>
         <form action="MainServlet">
-            <p>*If you do not want to update, you make it blank</p>
+            <p style="color: red">*If you do not want to update, you make it blank</p>
             <div><input type="text" name="nCustName" placeholder="enter new cust name"></div>
             <div><input type="text" name="nCustPhone" placeholder="enter new cust phone" pattern="[0-9]+"></div>
             <div><input type="text" name="nCustSex" placeholder="enter new cust sex"></div>

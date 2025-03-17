@@ -61,6 +61,11 @@
                     %>
                 </select>
             </div>
+            <div>
+                <label>Price: </label>
+                <input type="text" name="price" placeholder="enter price" pattern="[0-9]+" 
+                       value="<%= request.getParameter("price") != null ? request.getParameter("price") : ""%>"                >
+            </div>    
             <div><input type="submit" value="create"></div>
             <input type="hidden" name="action" value="createCarServ">
         </form>

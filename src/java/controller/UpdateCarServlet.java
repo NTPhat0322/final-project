@@ -38,7 +38,8 @@ public class UpdateCarServlet extends HttpServlet {
             String colour = request.getParameter("colour");
             String yearS = request.getParameter("year");
             String carID = request.getParameter("carID");
-            if(serialNumber == null || model == null ||colour == null ||yearS == null) {
+            String price = request.getParameter("price");
+            if(serialNumber == null || model == null ||colour == null ||yearS == null || price == null) {
                 request.getRequestDispatcher("MainServlet?action=home").forward(request, response);
             }
             CarDAO cD = new CarDAO();
@@ -54,6 +55,9 @@ public class UpdateCarServlet extends HttpServlet {
             }
             if(!yearS.isEmpty()) {
                 c.setYear(Integer.parseInt(yearS));
+            }
+            if(!price.isEmpty()) {
+                c.setPrice(Double.parseDouble(price));
             }
             
             int rs = cD.updateCar(c);

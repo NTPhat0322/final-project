@@ -5,21 +5,20 @@
  */
 package controller;
 
-import dao.CarDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Car;
+import javax.servlet.http.HttpSession;
+import model.Customer;
 
 /**
  *
  * @author ASUS
  */
-public class CreateCarServlet extends HttpServlet {
+public class LogoutCustomerServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,43 +33,16 @@ public class CreateCarServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            String serialNum = request.getParameter("serialNum");
-            String model = request.getParameter("model");
-            String color = request.getParameter("colour");
-            String yearS = request.getParameter("year");
-            String priceS = request.getParameter("price");
-            if(serialNum == null || model == null || color == null || yearS == null || priceS == null)
-                request.getRequestDispatcher("MainServlet?action=home").forward(request, response);
-            int year = 0;
-            if(!yearS.isEmpty()){
-                year = Integer.parseInt(yearS);
-            }
-            double price = 0;
-            if(!priceS.isEmpty()) {
-                price = Double.parseDouble(priceS);
-            }
-            //xử lý carID
-            CarDAO cD = new CarDAO();
-            ArrayList<Car> carList = cD.getAllCar();
-            //lấy thằng Car có ID cao nhất
-            Car highestCar = carList.get(0);
-            for (int i = 1; i < carList.size(); i++) {
-                if(carList.get(i).getCarID().compareToIgnoreCase(highestCar.getCarID()) > 0) {
-                    highestCar = carList.get(i);
-                }
-            }
-            //tăng số cuối lên 1
-            int custID = Integer.parseInt(highestCar.getCarID()) + 1;
-            String custIDs = custID + "";
-            Car c = new Car(custIDs, serialNum, model, color, year, true, price);
+            /* TODO output your page here. You may use following sample code. */
+            HttpSession s = request.getSession();
+            Customer cus =(Customer) s.getAttribute("cus");
             
-            int rs = cD.createCar(c);
-            if(rs == 0) {
-                request.setAttribute("result", "create fail");
-            }else {
-                request.setAttribute("result", "create successfully");
+            if(cus != null){
+                s.invalidate();
+                response.sendRedirect("MainServlet?action=home");
+            }else{
+                response.sendRedirect("MainServlet?action=home");
             }
-            request.getRequestDispatcher("MainServlet?action=createCar").forward(request, response);
         }
     }
 
