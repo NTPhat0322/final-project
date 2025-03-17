@@ -51,6 +51,9 @@ public class MainServlet extends HttpServlet {
                 case "loginStaff":
                     url = "LoginStaffServlet";
                     break;
+                case "customerDashboard":
+                    url = "customerDashboard.jsp";
+                    break;
                 case "salePersonDashBoard":
                     url = "salepersondashboard.jsp";
                     break;
@@ -59,6 +62,9 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "logout":
                     url = "LogoutStaffServlet";
+                    break;
+                case "logoutcust":
+                    url = "LogoutCustomerServlet";
                     break;
                     
                 //---------------------------
@@ -142,6 +148,21 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "updatePart1":
                     url = "UpdatePartServlet1";
+                    break;
+                case "createInvoicePage":
+                    url = "createInvoice.jsp";
+                    break;
+                case "createInvoice":
+                    url = "CreateInvoiceServlet";
+                    break;
+                case "reportPage":
+                    url = "report.jsp";
+                    break;
+                case "viewinvoicePage":
+                    url = "viewInvoice.jsp";
+                    break;
+                case "viewinvoice":
+                    url = "ViewInvoiceServlet";
                     break;
             }
             request.getRequestDispatcher(url).forward(request, response);

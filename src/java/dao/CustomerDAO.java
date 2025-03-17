@@ -191,4 +191,39 @@ public class CustomerDAO {
         }
         return rs;
     }
+    
+    public Customer getCusByName(String name){
+        Customer rs = null;
+        Connection cn = null;
+        try{
+            cn = DBUtils.getConnection();
+            if(cn != null) {
+                String sql = "SELECT [custID],[custName],[phone],[sex],[cusAddress],[status] FROM [dbo].[Customer]\n" +
+                                "WHERE [custName] = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, name);
+                ResultSet table = pst.executeQuery();
+                if(table != null) {
+                    if(table.next()) {
+                        int cusid = table.getInt("custID");
+                        String custName = table.getString("custName");
+                        String phone = table.getString("phone") != null ? table.getString("phone") : "";
+                        String sex = table.getString("sex") != null ? table.getString("sex") : "";
+                        String cusAddress = table.getString("cusAddress") != null ? table.getString("cusAddress") : "";
+                        boolean status = table.getBoolean("status");
+                        rs = new Customer(cusid, custName, phone, sex, cusAddress, status);
+                    }
+                }
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }finally {
+            try{
+                if(cn != null) cn.close();
+            }catch(Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return rs;
+    }
 }
