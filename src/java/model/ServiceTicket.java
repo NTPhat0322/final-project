@@ -13,12 +13,13 @@ public class ServiceTicket {
     public ServiceTicket() {
     }
 
-    public ServiceTicket(String seviceTicketID, LocalDate dateReceived, LocalDate dateReturned, String carID, int custID) {
+    public ServiceTicket(String seviceTicketID, LocalDate dateReceived, LocalDate dateReturned, String carID,int custID ) {
         this.seviceTicketID = seviceTicketID;
         this.dateReceived = dateReceived;
-        this.dateReturned = dateReturned;
-        this.carID = carID;
+        this.dateReturned = dateReturned;   
         this.custID = custID;
+        this.carID = carID;
+
     }
 
 
@@ -60,6 +61,11 @@ public class ServiceTicket {
 
     public void setCustID(int custID) {
         this.custID = custID;
+    }
+
+    @Override
+    public String toString() {
+        return "ServiceTicket{" + "seviceTicketID=" + seviceTicketID + ", dateReceived=" + dateReceived + ", dateReturned=" + dateReturned + ", carID=" + carID + ", custID=" + custID + '}';
     }
     
     

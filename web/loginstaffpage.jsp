@@ -16,7 +16,7 @@
             <label for="staff_name">Staff name</label>
             <p><input type="text" id="staff_name" name="txtname" placeholder="enter staff's name" required>*</p>
             <p><input type="submit" value="login" onclick="setHiddenValue()"></p>
-            <input type="hidden" name="action" value="loginStaff">
+            <input type="hidden" name="action" value="loginStaff"> 
         </form>
         <div>
             <%
