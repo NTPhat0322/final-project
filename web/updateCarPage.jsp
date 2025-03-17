@@ -47,6 +47,7 @@
                 <th>Car Model</th>
                 <th>Car Color</th>
                 <th>Car Year</th>
+                <th>Price</th>
             </tr>
             <tr>
                 <td><%= c.getCarID()%></td>
@@ -54,6 +55,7 @@
                 <td><%= c.getModel()%></td>
                 <td><%= c.getColour()%></td>
                 <td><%= c.getYear()%></td>
+                <td><%= String.format("%.0f", c.getPrice()) %></td>
             </tr>
         </table>
         
@@ -90,6 +92,11 @@
                     }
                     %>
                 </select>
+            </div>
+            <div>
+                <label>Price: </label>
+                <input type="text" name="price" placeholder="enter price" pattern="[0-9]+" 
+                       value="<%= request.getParameter("price") != null ? request.getParameter("price") : ""%>"                >
             </div>
             <div><input type="submit" value="update"></div>
             <input type="hidden" name="action" value="updateCarServ">
