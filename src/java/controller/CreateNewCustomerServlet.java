@@ -48,15 +48,9 @@ public class CreateNewCustomerServlet extends HttpServlet {
             }
             
             //không có dữ liệu nào null
+            
             int custID = Integer.parseInt(custIDS);
-            //kiểm tra xem id đã tồn tại chưa
             CustomerDAO d = new CustomerDAO();
-            if(d.searchCustById(custID) != null) { //id tồn tại
-                request.setAttribute("result", "id of customer exists");
-                request.getRequestDispatcher("MainServlet?action=createCust").forward(request, response);
-            }
-            
-            
             Customer c = new Customer(custID, custName, custPhone, custSex, custAddress);
             int rs = d.createCustomer(c);
             if(rs == 0) {

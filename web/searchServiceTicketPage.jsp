@@ -56,7 +56,13 @@
                     <%
                         for (Customer c : custList) {
                     %>
-                    <option value="<%= c.getCustID()%>"><%= c.toString()%></option>
+                    <option value="<%= c.getCustID()%>">
+                        ID: <%= c.getCustID()%>,
+                        Name: <%= c.getCustName()%>,
+                        Phone: <%= c.getCustPhone()%>,
+                        Sex: <%= c.getCustSex()%>,
+                        Address: <%= c.getCustAddress()%>
+                    </option>
                     <%
                         }
                     %>

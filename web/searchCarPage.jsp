@@ -80,6 +80,7 @@
                             <th>Model</th>
                             <th>Color</th>
                             <th>Year</th>
+                            <th>Price</th>
                             <th>Delete</th>
                             <th>Update</th>
                         </tr>
@@ -92,6 +93,7 @@
                             <td><%= c.getModel() %></td>
                             <td><%= c.getColour() %></td>
                             <td><%= c.getYear() %></td>
+                            <td><%= String.format("%.0f", c.getPrice()) %></td>
                             <td>
                                 <a href='MainServlet?action=deleteCarServ&carID=<%= c.getCarID() %>'>Delete</a>
                             </td>

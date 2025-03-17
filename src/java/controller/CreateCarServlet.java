@@ -38,11 +38,16 @@ public class CreateCarServlet extends HttpServlet {
             String model = request.getParameter("model");
             String color = request.getParameter("colour");
             String yearS = request.getParameter("year");
-            if(serialNum == null || model == null || color == null || yearS == null)
+            String priceS = request.getParameter("price");
+            if(serialNum == null || model == null || color == null || yearS == null || priceS == null)
                 request.getRequestDispatcher("MainServlet?action=home").forward(request, response);
             int year = 0;
             if(!yearS.isEmpty()){
                 year = Integer.parseInt(yearS);
+            }
+            double price = 0;
+            if(!priceS.isEmpty()) {
+                price = Double.parseDouble(priceS);
             }
             //xử lý carID
             CarDAO cD = new CarDAO();
@@ -57,7 +62,7 @@ public class CreateCarServlet extends HttpServlet {
             //tăng số cuối lên 1
             int custID = Integer.parseInt(highestCar.getCarID()) + 1;
             String custIDs = custID + "";
-            Car c = new Car(custIDs, serialNum, model, color, year);
+            Car c = new Car(custIDs, serialNum, model, color, year, true, price);
             
             int rs = cD.createCar(c);
             if(rs == 0) {
