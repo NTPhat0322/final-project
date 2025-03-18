@@ -71,7 +71,7 @@
                                 %>
                                 <tr>
                                     <td><%= y %></td>
-                                    <td><%= rsr.get(y) %></td>
+                                    <td><%= String.format("%.0f", rsr.get(y)) %></td>
                                 </tr>    
 
                 <%

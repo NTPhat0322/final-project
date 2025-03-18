@@ -25,6 +25,9 @@
             justify-content: space-between;
             align-items: center;
         }
+        a {
+            text-decoration: none;
+        }
     </style>
     
     <body>

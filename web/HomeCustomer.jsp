@@ -4,6 +4,7 @@
     Author     : admin
 --%>
 
+<%@page import="model.Customer"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,11 +13,22 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h2>Welcome, Customer</h2>
+        <%
+            HttpSession s = request.getSession();
+            Customer c = (Customer) s.getAttribute("customer");
+            if(c != null){
+        %>
+        <h2>Welcome <%= c.getCustName() %></h2>
         <ul>
             <li><a href="CustomerViewServiceTicket.jsp">View Service Ticket</a></li>
+            <li><a href="MainServlet?action=viewinvoice&custid=<%= c.getCustID() %>">View invoice</a></li>
             <li><a href="customerProfile.jsp">Change Profile</a></li>
         </ul>
         <a href="MainServlet?action=loginCustForm">Logout</a>
+        
+        <%
+            }
+        %>
+        
     </body>
 </html>

@@ -32,7 +32,7 @@
         <div>
             <form action="MainServlet">
                 <p>ID: <%= p.getPartId() %></p>
-                <input type="hidden" value="updatePart1" name="action"
+                <input type="hidden" value="updatePart1" name="action"/>
                 <input type="hidden" value="<%= p.getPartId() %>" name="partid"/>
                 <div class="form">
                     <label>Part name: </label>
