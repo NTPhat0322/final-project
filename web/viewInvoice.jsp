@@ -87,7 +87,7 @@ td:nth-child(5) {
                             <li>Đời: <%= iv.getCarYear() %></li>
                         </ul>
                     </td>
-                    <td><%= iv.getCarPrice() %></td>
+                    <td><%= String.format("%.0f", iv.getCarPrice()) %></td>
                 </tr>
             </table>
         </div>

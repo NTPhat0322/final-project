@@ -59,13 +59,18 @@
                 </div>
 
                 <div>
-                    <label>Car id: </label>
+                    <label>Car: </label>
                     <select name="carId" required="">
                         <option value="">--None--</option>
                         <%
                             for (Car c : carlist) {
                         %>
-                        <option value="<%= c.getCarID() %>"><%= c.toString() %></option>
+                        <option value="<%= c.getCarID() %>">
+                            Serial: <%= c.getSerialNumber() %> - 
+                            Model: <%= c.getModel() %> - 
+                            Color: <%= c.getColour() %> - 
+                            Year: <%= c.getYear() %>
+                        </option>
                         <%
                                 }
                         %>
@@ -73,13 +78,18 @@
                 </div>
                     
                 <div>
-                    <label>Customer id: </label>
+                    <label>Customer: </label>
                     <select name="custId" required="">
                         <option value="">--None--</option>
                         <%
                             for (Customer cust2 : custlist) {
                         %>
-                        <option value="<%= cust2.getCustID() %>"><%= cust2.toString() %></option>
+                        <option value="<%= cust2.getCustID() %>">
+                            Customer name: <%= cust2.getCustName() %> - 
+                            Phone number: <%= cust2.getCustPhone() %> - 
+                            Sex: <%= cust2.getCustSex() %> - 
+                            Address: <%= cust2.getCustAddress() %>
+                        </option>
                         <%
                                 }
                         %>
