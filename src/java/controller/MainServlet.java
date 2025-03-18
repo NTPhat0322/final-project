@@ -33,9 +33,11 @@ public class MainServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String a = request.getParameter("action");
-            if(a == null) a = "home";
+            if (a == null) {
+                a = "home";
+            }
             String url = "";
-            switch(a) {
+            switch (a) {
                 case "home":
                     url = "index.jsp";
                     break;
@@ -67,11 +69,11 @@ public class MainServlet extends HttpServlet {
                 case "logoutcust":
                     url = "LogoutCustomerServlet";
                     break;
-                    
+
                 //---------------------------
                 case "createCust":
                     url = "createNewCust.jsp";
-                    break;  
+                    break;
                 case "searchCust":
                     url = "searchCust.jsp";
                     break;
@@ -111,7 +113,7 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "deleteCarServ":
                     url = "DeleteCarServlet";
-                    break;    
+                    break;
                 //-------------------------------    
                 case "createTicketPage":
                     url = "createTicketPage.jsp";
@@ -162,6 +164,7 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "serviceDetail":
                     url = "serviceTicketDetail.jsp";
+                    break;
                 case "createInvoicePage":
                     url = "createInvoice.jsp";
                     break;
@@ -176,6 +179,18 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "viewinvoice":
                     url = "ViewInvoiceServlet";
+                    break;
+                case "LoginCustomerServlet":
+                    url = "LoginCustomerServlet";
+                    break;
+                case "homecust":
+                    url = "HomeCustomer.jsp";
+                    break;
+                case "UpdateCustomerServlet":
+                    url = "UpdateCustomerServlet";
+                    break;
+                case "customerProfile":
+                    url = "customerProfile.jsp";
                     break;
             }
             request.getRequestDispatcher(url).forward(request, response);

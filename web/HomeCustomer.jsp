@@ -17,6 +17,6 @@
             <li><a href="CustomerViewServiceTicket.jsp">View Service Ticket</a></li>
             <li><a href="customerProfile.jsp">Change Profile</a></li>
         </ul>
-
+        <a href="MainServlet?action=loginCustForm">Logout</a>
     </body>
 </html>

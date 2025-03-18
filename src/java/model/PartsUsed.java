@@ -7,7 +7,7 @@ public class PartsUsed {
     private String serviceTicketID;
     private String partID;
     private int numberUsed;
-    private BigDecimal purchasePrice; // Dùng BigDecimal để đảm bảo độ chính xác của giá phụ tùng
+    private double purchasePrice; 
     private String partName; // Thêm thuộc tính này
 
     public String getPartName() {
@@ -15,7 +15,7 @@ public class PartsUsed {
     }
 
     // Constructor
-    public PartsUsed(String serviceTicketID, String partID, int numberUsed, BigDecimal purchasePrice) {
+    public PartsUsed(String serviceTicketID, String partID, int numberUsed, double purchasePrice) {
         this.partID = partID;
         this.serviceTicketID = serviceTicketID;
         this.numberUsed = numberUsed;
@@ -47,23 +47,17 @@ public class PartsUsed {
         this.numberUsed = numberUsed;
     }
 
-    public BigDecimal getPurchasePrice() {
+    public double getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(BigDecimal purchasePrice) {
+    public void setPurchasePrice(double purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
-    // Tính tổng giá trị phụ tùng sử dụng
-    public BigDecimal getTotalCost() {
-        return purchasePrice.multiply(BigDecimal.valueOf(numberUsed));
-    }
-
-    // toString() để debug
     @Override
     public String toString() {
-        return "PartsUsed{" + "serviceTicketID=" + serviceTicketID + ", partID=" + partID + ", numberUsed=" + numberUsed + ", purchasePrice=" + purchasePrice + '}';
+        return "PartsUsed{" + "serviceTicketID=" + serviceTicketID + ", partID=" + partID + ", numberUsed=" + numberUsed + ", purchasePrice=" + purchasePrice + ", partName=" + partName + '}';
     }
 
 }

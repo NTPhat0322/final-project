@@ -17,14 +17,15 @@
             }
         %>
 
-        <form action="LoginCustomerServlet" method="post">
+        <form action="MainServlet" method="post">
             <label for="name">Tên:</label>
             <input type="text" id="name" name="name" required><br><br>
 
             <label for="phone">Số điện thoại:</label>
             <input type="text" id="phone" name="phone" required><br><br>
-
+            <input type="hidden" name="action" value="LoginCustomerServlet"/>
             <input type="submit" value="Đăng nhập">
         </form>
+        <a href="MainServlet?action=home">Back</a>
     </body>
 </html>

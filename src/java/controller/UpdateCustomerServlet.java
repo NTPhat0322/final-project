@@ -48,7 +48,7 @@ public class UpdateCustomerServlet extends HttpServlet {
 
             if (success) {
                 session.setAttribute("updateStatus", "Update successful!");
-                response.sendRedirect("HomeCustomer.jsp"); // Chuyển hướng về trang home
+                response.sendRedirect("MainServlet?action=customerProfile"); 
             } else {
                 session.setAttribute("updateStatus", "Update failed. Please try again.");
                 response.sendRedirect("customerProfile.jsp"); // Quay lại trang cập nhật

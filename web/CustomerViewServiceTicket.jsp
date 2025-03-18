@@ -57,7 +57,7 @@
                 <td><%= ticket.getCarID()%></td>
                 <td>
                     <a href="MainServlet?action=serviceDetail&id=<%= ticket.getSeviceTicketID()%>">
-                        <button>View Detail</button>
+                        View Detail
                     </a>
                 </td>
 

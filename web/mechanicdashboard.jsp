@@ -30,5 +30,6 @@
     <%
         }
     %>
+    <a href="MainServlet?action=loginStaffForm">Logout</a>
 </body>
 </html>

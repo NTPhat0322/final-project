@@ -26,7 +26,7 @@ public class PartsUsedDAO {
                         rs.getString("partID"),
                         rs.getString("serviceTicketID"),
                         rs.getInt("numberUsed"),
-                        rs.getBigDecimal("purchasePrice")
+                        rs.getDouble("purchasePrice")
                 ));
             }
         } catch (SQLException | ClassNotFoundException e) {

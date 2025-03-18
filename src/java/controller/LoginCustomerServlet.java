@@ -46,10 +46,10 @@ public class LoginCustomerServlet extends HttpServlet {
             if (customer != null) {
                 HttpSession session = request.getSession();
                 session.setAttribute("customer", customer);
-                response.sendRedirect("HomeCustomer.jsp"); // Chuyển đến trang chính sau khi đăng nhập
+                response.sendRedirect("MainServlet?action=homecust"); // Chuyển đến trang chính sau khi đăng nhập
             } else {
                 request.setAttribute("ERROR", "Tên hoặc số điện thoại không đúng!");
-                request.getRequestDispatcher("loginCustomer.jsp").forward(request, response);
+                request.getRequestDispatcher("MainServlet?action=loginCustForm").forward(request, response);
             }
 
         }

@@ -21,19 +21,17 @@
         </p>
         <% }%>
 
-        <form action="UpdateCustomerServlet" method="post">
+        <form action="MainServlet" method="post">
             Customer ID: <input type="text" name="custID" value="<%= customer.getCustID()%>" readonly><br>
             Name: <input type="text" name="custName" value="<%= customer.getCustName()%>" required><br>
             Phone: <input type="text" name="phone" value="<%= customer.getCustPhone()%>" required><br>
             Sex: <input type="text" name="sex" value="<%= customer.getCustSex()%>" required><br>
             Address: <input type="text" name="cusAddress" value="<%= customer.getCustAddress()%>" required><br>
             <input type="submit" value="Update">
+            <input type="hidden" name ="action" value="UpdateCustomerServlet"/>
         </form>
-
-        <!-- Nút Back chỉ hiển thị nếu cập nhật thất bại -->
-        <% if (updateStatus != null && updateStatus.contains("failed")) { %>
-        <br>
-        <button onclick="window.history.back();">Back</button>
-        <% }%>
+        
+            <a href ="MainServlet?action=homecust">Back</a>
+        
     </body>
 </html>

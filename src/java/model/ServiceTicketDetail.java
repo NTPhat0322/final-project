@@ -21,12 +21,16 @@ public class ServiceTicketDetail {
     private int custID;
     private int hours;
     private String comment;
-    private BigDecimal rate;
+    private double rate;
+    private String mechanicName;
+    private String serviceName;
+    private String partName;
+    private double price;
 
     public ServiceTicketDetail() {
     }
 
-    public ServiceTicketDetail(String serviceTicketID, int carID, int custID, LocalDate dateReceived, LocalDate dateReturned, int hours, String comment, BigDecimal rate) {
+    public ServiceTicketDetail(String serviceTicketID, LocalDate dateReceived, LocalDate dateReturned, int carID, int custID, int hours, String comment, double rate, String mechanicName, String serviceName, String partName, double price) {
         this.serviceTicketID = serviceTicketID;
         this.dateReceived = dateReceived;
         this.dateReturned = dateReturned;
@@ -35,9 +39,11 @@ public class ServiceTicketDetail {
         this.hours = hours;
         this.comment = comment;
         this.rate = rate;
+        this.mechanicName = mechanicName;
+        this.serviceName = serviceName;
+        this.partName = partName;
+        this.price = price;
     }
-
-    
 
     public String getServiceTicketID() {
         return serviceTicketID;
@@ -95,20 +101,50 @@ public class ServiceTicketDetail {
         this.comment = comment;
     }
 
-    public BigDecimal getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(BigDecimal rate) {
+    public void setRate(double rate) {
         this.rate = rate;
+    }
+
+    public String getMechanicName() {
+        return mechanicName;
+    }
+
+    public void setMechanicName(String mechanicName) {
+        this.mechanicName = mechanicName;
+    }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getPartName() {
+        return partName;
+    }
+
+    public void setPartName(String partName) {
+        this.partName = partName;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
     public String toString() {
-        return "ServiceTicketDetail{" + "serviceTicketID=" + serviceTicketID + ", dateReceived=" + dateReceived + ", dateReturned=" + dateReturned + ", carID=" + carID + ", custID=" + custID + ", hours=" + hours + ", comment=" + comment + ", rate=" + rate + '}';
+        return "ServiceTicketDetail{" + "serviceTicketID=" + serviceTicketID + ", dateReceived=" + dateReceived + ", dateReturned=" + dateReturned + ", carID=" + carID + ", custID=" + custID + ", hours=" + hours + ", comment=" + comment + ", rate=" + rate + ", mechanicName=" + mechanicName + ", serviceName=" + serviceName + ", partName=" + partName + ", price=" + price + '}';
     }
 
     
-    
-
 }
