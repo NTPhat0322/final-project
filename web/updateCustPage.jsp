@@ -74,12 +74,6 @@
             %>
             <h5><%= request.getAttribute("result") %></h5>
             <%
-                    if(request.getAttribute("updatedCust") != null) {
-            %>
-            <h5>Customer after updating</h5>
-            <h5><%= request.getAttribute("updatedCust") %></h5>
-            <%
-                    }
                 }
             %>
     </body>

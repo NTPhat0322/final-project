@@ -82,11 +82,12 @@
                 </div>
 
                 <div class="container">
-                    <h3>Function for customer</h3>
+                    <h3>Customer</h3>
                     <div><a href='MainServlet?action=searchCust'>Search customer</a></div>
                     <div><a href='MainServlet?action=createCust'>Create new customer</a></div>
+                    <div><a href="MainServlet?action=createInvoicePage">Create invoice for customer</a></div>
 
-                    <h3>Function for cars</h3>
+                    <h3>Cars</h3>
                     <div><a href='MainServlet?action=searchCar'>Search car</a></div>
                     <div><a href='MainServlet?action=createCar'>Create new car</a></div>
 
@@ -94,13 +95,12 @@
                     <div><a href='MainServlet?action=searchServiceTicketPage'>Search service ticket</a></div>
                     <div><a href='MainServlet?action=createTicketPage'>Create service ticket</a></div>
 
-                    <h3>Function for parts</h3>
+                    <h3>Parts</h3>
                     <div><a href="MainServlet?action=searchPart">Search part</a></div>
                     <div><a href="MainServlet?action=createPartPage">Create part</a></div>
 
-                    <h3>Create invoice for customer</h3>
-                    <div><a href="MainServlet?action=createInvoicePage">Create Invoice</a></div>
-                    <div><a href="MainServlet?action=reportPage">Report</a></div>
+                    <h3>Report</h3>    
+                    <div><a href="MainServlet?action=reportPage">View report</a></div>
                 </div>  
         <%
             }else {
