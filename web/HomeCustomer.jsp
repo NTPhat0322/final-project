@@ -22,7 +22,7 @@
         <ul>
             <li><a href="MainServlet?action=CustomerViewServiceTicket">View Service Ticket</a></li>
             <li><a href="MainServlet?action=viewinvoice&custid=<%= c.getCustID() %>">View invoice</a></li>
-            <li><a href="MainServlet?action=customerprofile">Change Profile</a></li>
+            <li><a href="MainServlet?action=customerProfile">Change Profile</a></li>
         </ul>
         <a href="MainServlet?action=loginCustForm">Logout</a>
         

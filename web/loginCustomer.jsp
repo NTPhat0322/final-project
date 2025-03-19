@@ -17,9 +17,9 @@
             }
         %>
 
-        <form action="MainServlet" method="post">
+        <form action="MainServlet" accept-charset="UTF-8">
             <label for="name">Tên:</label>
-            <input type="text" id="name" name="name" required><br><br>
+            <input type="text" id="name" name="custName" required><br><br>
 
             <label for="phone">Số điện thoại:</label>
             <input type="text" id="phone" name="phone" required><br><br>

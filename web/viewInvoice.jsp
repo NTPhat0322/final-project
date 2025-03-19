@@ -94,12 +94,16 @@ td:nth-child(5) {
         
         <%
                         }
+                }else {
+        %>
+        <h4>Customer has no invoices</h4>
+        <%
                 }
         %>
         <br/>
         <div>
             <form action="MainServlet">
-                <input type="hidden" name="action" value="#"/>
+                <input type="hidden" name="action" value="homecust"/>
                 <input type="submit" value="BACK"/>
             </form>
         </div>

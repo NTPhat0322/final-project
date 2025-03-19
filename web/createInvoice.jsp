@@ -64,6 +64,7 @@
                         <option value="">--None--</option>
                         <%
                             for (Car c : carlist) {
+                               if(c.isStatus()) {
                         %>
                         <option value="<%= c.getCarID() %>">
                             Serial: <%= c.getSerialNumber() %> - 
@@ -72,7 +73,8 @@
                             Year: <%= c.getYear() %>
                         </option>
                         <%
-                                }
+                               }
+                            }
                         %>
                     </select>
                 </div>

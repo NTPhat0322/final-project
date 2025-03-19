@@ -53,7 +53,7 @@
         </div>
         <form action="MainServlet">
             <div>
-                <label>Customer ID: </label>
+                <label>Customer: </label>
                 <select name="custID">
                     <option value="">---------None---------</option>
                     <%
