@@ -20,9 +20,9 @@
         %>
         <h2>Welcome <%= c.getCustName() %></h2>
         <ul>
-            <li><a href="CustomerViewServiceTicket.jsp">View Service Ticket</a></li>
+            <li><a href="MainServlet?action=CustomerViewServiceTicket">View Service Ticket</a></li>
             <li><a href="MainServlet?action=viewinvoice&custid=<%= c.getCustID() %>">View invoice</a></li>
-            <li><a href="customerProfile.jsp">Change Profile</a></li>
+            <li><a href="MainServlet?action=customerprofile">Change Profile</a></li>
         </ul>
         <a href="MainServlet?action=loginCustForm">Logout</a>
         
