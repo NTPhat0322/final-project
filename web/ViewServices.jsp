@@ -63,7 +63,7 @@
         </table>
         <br>
         <!-- Nút tạo dịch vụ mới -->
-        <a href="createService.jsp"><button>Tạo Dịch Vụ Mới</button></a>
+        <a href="MainServlet?action=createService"><button>Tạo Dịch Vụ Mới</button></a>
         <%
                 }
             }

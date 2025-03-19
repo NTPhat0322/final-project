@@ -24,8 +24,8 @@
     <h2>Welcome, <%= m.getName() %>!</h2>
     <h3>Mechanic Dashboard</h3>
     <ul>
-        <li><a href="ViewServiceTickets.jsp">View Service Tickets</a></li>
-        <li><a href="ViewServices.jsp">View Services</a></li>
+        <li><a href="MainServlet?action=viewServiceticket">View Service Tickets</a></li>
+        <li><a href="MainServlet?action=viewservice">View Services</a></li>
     </ul>
     <%
         }

@@ -38,15 +38,15 @@ public class CreateServiceServlet extends HttpServlet {
 
             // Lưu dịch vụ mới vào cơ sở dữ liệu
             ServiceDAO serviceDAO = new ServiceDAO();
-            boolean isSuccess = serviceDAO.addService(serviceName, hourlyRate);
+            boolean isSuccess = serviceDAO.addService( serviceName, hourlyRate);
 
             if (isSuccess) {
                 // Điều hướng đến trang danh sách dịch vụ sau khi thêm thành công
-                response.sendRedirect("serviceList.jsp");
+                response.sendRedirect("MainServlet?action=viewservice");
             } else {
                 // Nếu có lỗi, quay lại trang tạo dịch vụ mới và hiển thị thông báo lỗi
                 request.setAttribute("errorMessage", "Không thể tạo dịch vụ mới. Vui lòng thử lại.");
-                request.getRequestDispatcher("createService.jsp").forward(request, response);
+                request.getRequestDispatcher("MainServlet?Action=createService").forward(request, response);
             }
         }
     }

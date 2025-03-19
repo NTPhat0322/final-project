@@ -67,15 +67,7 @@
             <input type="hidden" name="action" value="loginStaff"> 
 
         </form>
-        <div>
-            <%
-                if (request.getAttribute("result") != null) {
-                    out.print(request.getAttribute("result"));
-                }
-            %>
-            <a href="MainServlet?action=home">Back</a>
-        </div>
-
+       
             <div class="error-message">
                 <% if (request.getAttribute("result") != null) {
                     out.print(request.getAttribute("result"));

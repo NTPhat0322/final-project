@@ -38,44 +38,52 @@ public class serviceTicketsServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String searchValue = request.getParameter("searchValue");
-            String searchDate = request.getParameter("searchDate");
             HttpSession session = request.getSession();
             Mechanic mechanic = (Mechanic) session.getAttribute("mechanic");
+
+            if (mechanic == null) {
+                response.sendRedirect("MainServlet?action=loginStaffForm"); // Chuyển hướng nếu chưa đăng nhập
+                return;
+            }
+
+            // Lấy giá trị search từ request
+            String searchValue = request.getParameter("searchValue");
+            String searchDate = request.getParameter("searchDate");
 
             // Gọi DAO để lấy danh sách ServiceTicket theo searchValue
             ServiceTicketDAO dao = new ServiceTicketDAO();
             List<ServiceTicketDetail> tickets;
 
-            if (searchValue == null || searchValue.trim().isEmpty()) {
+            if ((searchValue == null || searchValue.trim().isEmpty())
+                    && (searchDate == null || searchDate.trim().isEmpty())) {
                 // Nếu không nhập gì, lấy toàn bộ danh sách
                 tickets = dao.getListServiceTicketsDetailByMechanicID(mechanic.getId());
             } else {
-                // Nếu có nhập, tìm kiếm theo carID hoặc custID
-                tickets = dao.searchServiceTickets(searchValue, searchValue, searchDate);
+                // Nếu có nhập, tìm kiếm theo carID/custID hoặc dateReceived
+                tickets = dao.searchServiceTickets(mechanic.getId(), searchValue, searchDate);
             }
 
             // Đưa danh sách vào request để hiển thị trong JSP
             request.setAttribute("tickets", tickets);
-            request.setAttribute("searchValue", searchValue);
+            request.setAttribute("searchValue", searchValue); // Giữ lại giá trị ô input search
+            request.setAttribute("searchDate", searchDate); // Giữ lại ngày đã nhập
 
-            // Chuyển hướng về trang serviceTickets.jsp
-            request.getRequestDispatcher("ViewServiceTickets.jsp").forward(request, response);
+            // Chuyển hướng về trang ViewServiceTickets.jsp (không bị mất dữ liệu)
+            request.getRequestDispatcher("MainServlet?action=viewServiceticket").forward(request, response);
         }
-   }
-
+    }
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-/**
- * Handles the HTTP <code>GET</code> method.
- *
- * @param request servlet request
- * @param response servlet response
- * @throws ServletException if a servlet-specific error occurs
- * @throws IOException if an I/O error occurs
- */
-@Override
-        protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -89,7 +97,7 @@ public class serviceTicketsServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-        protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -100,7 +108,7 @@ public class serviceTicketsServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-        public String getServletInfo() {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

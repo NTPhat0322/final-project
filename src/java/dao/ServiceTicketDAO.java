@@ -1,13 +1,11 @@
 package dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import model.ServiceTicket;
@@ -249,16 +247,16 @@ public class ServiceTicketDAO {
         }
     }
 
-    public void updateServiceTicket(int ticketID, int hours, String comment, BigDecimal rate) {
-        String sql = "UPDATE ServiceMehan ic SET hours = ?, comment = ?, rate = ? WHERE serviceTicketID = ?";
+    public void updateServiceTicket(String ticketID, int hours, String comment, Double rate) {
+        String sql = "UPDATE ServiceMehanic SET hours = ?, comment = ?, rate = ? WHERE serviceTicketID = ?";
 
         try (Connection conn = DBUtils.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, hours);
-            stmt.setString(2, comment);
-            stmt.setBigDecimal(3, rate);
-            stmt.setInt(4, ticketID);
+            stmt.setString(2, (comment != null) ? comment : "");
+            stmt.setDouble(3, rate);
+            stmt.setString(4, ticketID);
 
             int rowsUpdated = stmt.executeUpdate();
             if (rowsUpdated > 0) {
@@ -343,4 +341,175 @@ public class ServiceTicketDAO {
         return ticket;
     }
 
+    public List<ServiceTicketDetail> getListServiceTicketsDetailByMechanicID(String id) {
+        List<ServiceTicketDetail> list = new ArrayList<>();
+        Connection cn = null;
+
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, st.custID, st.carID, \n"
+                        + "                       sm.hours, sm.comment, s.[hourlyRate] \n"
+                        + "                       FROM [dbo].[ServiceMehanic] sm \n"
+                        + "                       JOIN ServiceTicket st ON sm.serviceTicketID = st.serviceTicketID \n"
+                        + "                       JOIN Service s ON sm.serviceID = s.serviceID \n"
+                        + "                       WHERE sm.mechanicID = ?";
+
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, id);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                    list.add(new ServiceTicketDetail(rs.getString("serviceTicketID"),
+                            rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
+                            rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
+                            rs.getInt("carID"),
+                            rs.getInt("custID"),
+                            rs.getInt("hours"),
+                            rs.getString("comment"),
+                            rs.getDouble("hourlyRate")));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi SQL: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return list;
+    }
+
+    public List<ServiceTicketDetail> searchServiceTickets(String mechanicID, String searchValue, String searchDate) {
+        List<ServiceTicketDetail> list = new ArrayList<>();
+        Connection cn = null;
+        String newsql = "";
+
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, st.custID, st.carID, "
+                        + "sm.hours, sm.comment, s.hourlyRate "
+                        + "FROM ServiceMechanic sm "
+                        + "JOIN ServiceTicket st ON sm.serviceTicketID = st.serviceTicketID "
+                        + "JOIN Service s ON sm.serviceID = s.serviceID "
+                        + "WHERE sm.mechanicID = ?";
+
+                List<Object> params = new ArrayList<>();
+                params.add(mechanicID); // Thêm mechanicID vào đầu tiên
+
+                // Kiểm tra điều kiện tìm kiếm
+                if (searchValue != null && !searchValue.trim().isEmpty()) {
+                    if (searchDate != null && !searchDate.trim().isEmpty()) {
+                        newsql = sql + " AND (st.carID = ? OR st.custID = ?) AND st.dateReceived = ?";
+                        params.add(searchValue);
+                        params.add(searchValue);
+                        params.add(Date.valueOf(searchDate)); // Chuyển đổi sang kiểu Date
+                    } else {
+                        newsql = sql + " AND (st.carID = ? OR st.custID = ?)";
+                        params.add(searchValue);
+                        params.add(searchValue);
+                    }
+                } else if (searchDate != null && !searchDate.trim().isEmpty()) {
+                    newsql = sql + " AND st.dateReceived = ?";
+                    params.add(Date.valueOf(searchDate));
+                } else {
+                    // Nếu không có điều kiện tìm kiếm, gọi lại hàm lấy toàn bộ danh sách
+                    return getListServiceTicketsDetailByMechanicID(mechanicID);
+                }
+
+                PreparedStatement pst = cn.prepareStatement(newsql);
+
+                // Gán tham số vào PreparedStatement
+                for (int i = 0; i < params.size(); i++) {
+                    if (params.get(i) instanceof Date) {
+                        pst.setDate(i + 1, (Date) params.get(i));
+                    } else {
+                        pst.setString(i + 1, params.get(i).toString());
+                    }
+                }
+
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+                    list.add(new ServiceTicketDetail(
+                            rs.getString("serviceTicketID"),
+                            rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
+                            rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
+                            rs.getInt("carID"),
+                            rs.getInt("custID"),
+                            rs.getInt("hours"),
+                            rs.getString("comment"),
+                            rs.getDouble("hourlyRate")));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi SQL: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return list;
+    }
+    
+    public ServiceTicketDetail getServiceTicketsDetailByMechanicID(String id, String ticketID) {
+        ServiceTicketDetail s = new ServiceTicketDetail();
+        Connection cn = null;
+
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, st.custID, st.carID, \n"
+                        + "                       sm.hours, sm.comment, s.[hourlyRate] \n"
+                        + "                       FROM [dbo].[ServiceMehanic] sm \n"
+                        + "                       JOIN ServiceTicket st ON sm.serviceTicketID = st.serviceTicketID \n"
+                        + "                       JOIN Service s ON sm.serviceID = s.serviceID \n"
+                        + "                       WHERE sm.mechanicID = ? AND st.serviceTicketID = ?";
+
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, id);
+                pst.setString(2, ticketID);
+                ResultSet rs = pst.executeQuery();
+
+                while (rs.next()) {
+                            s = new ServiceTicketDetail(rs.getString("serviceTicketID"),
+                            rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
+                            rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
+                            rs.getInt("carID"),
+                            rs.getInt("custID"),
+                            rs.getInt("hours"),
+                            rs.getString("comment"),
+                            rs.getDouble("hourlyRate"));
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Lỗi SQL: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return s;
+    }
 }

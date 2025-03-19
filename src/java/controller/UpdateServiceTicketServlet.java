@@ -38,13 +38,13 @@ public class UpdateServiceTicketServlet extends HttpServlet {
             String ticketID = request.getParameter("ticketID");
             int hours = Integer.parseInt(request.getParameter("hours"));
             String comment = request.getParameter("comment");
-            BigDecimal rate = new BigDecimal(request.getParameter("rate"));
+            double rate = Double.parseDouble(request.getParameter("rate"));
 
             ServiceTicketDAO dao = new ServiceTicketDAO();
             dao.updateServiceTicket(ticketID, hours, comment, rate);
 
             // Chuyển hướng về danh sách vé dịch vụ sau khi cập nhật thành công
-            response.sendRedirect("editServiceTicket.jsp");
+            request.getRequestDispatcher("MainServlet?action=viewServiceticket").forward(request, response);
         }
     }
         // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

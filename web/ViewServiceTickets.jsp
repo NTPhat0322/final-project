@@ -19,13 +19,13 @@
     </head>
     <body>
         <h2>Service Tickets</h2>
-        <form method="GET" action="serviceTicketsServlet">
+        <form method="GET" action="MainServlet">
             <label for="searchValue">Search by Car ID or Customer ID:</label>
             <input type="text" id="searchValue" name="searchValue" value="<%= request.getParameter("searchValue") != null ? request.getParameter("searchValue") : ""%>">
 
             <label for="searchDate">Search by Date Received:</label>
             <input type="date" id="searchDate" name="searchDate" value="<%= request.getParameter("searchDate") != null ? request.getParameter("searchDate") : ""%>">
-
+            <input type="hidden" name="action" value="serviceTicketServlet"/>
             <button type="submit">Search</button>
         </form>
         <%
@@ -65,7 +65,7 @@
                 <td><%= ticket.getComment()%></td>
                 <td><%= ticket.getRate()%></td>
                 <td>
-                    <a href="editServiceTicket.jsp?ticketID=<%= mechanicID%>">Update</a>
+                    <a href="MainServlet?action=edit&ticketID=<%= ticket.getServiceTicketID()%>">Update</a>
                 </td>
             </tr>
             <%

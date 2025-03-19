@@ -39,15 +39,15 @@ public class editServiceTicketServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+            String ticketID = request.getParameter("ticketID");
             int hours = Integer.parseInt(request.getParameter("hours"));
             String comment = request.getParameter("comment");
-            BigDecimal rate = new BigDecimal(request.getParameter("rate"));
+            double rate = Double.parseDouble(request.getParameter("rate"));
             
             ServiceTicketDAO dao = new ServiceTicketDAO();
             dao.updateServiceTicket(ticketID, hours, comment, rate);
             
-            response.sendRedirect("ViewServiceTickets.jsp"); // Quay lại danh sách
+            response.sendRedirect("MainServlet?action=viewServiceticket"); // Quay lại danh sách
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().println("Error updating service ticket.");

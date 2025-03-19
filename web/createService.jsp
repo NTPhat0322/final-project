@@ -7,18 +7,19 @@
     <title>Tạo Dịch Vụ Mới</title>
 </head>
 <body>
-    <h2>Tạo Dịch Vụ Mới</h2>
-    <form action="CreateServiceServlet" method="post">
-        <label for="serviceName">Tên Dịch Vụ:</label>
+    <h2>Create new Service</h2>
+    <form action="MainServlet" method="post">
+        <label for="serviceName">Service Name:</label>
         <input type="text" id="serviceName" name="serviceName" required><br><br>
 
-        <label for="hourlyRate">Giá Theo Giờ (VND):</label>
+        <label for="hourlyRate">HourlyRate:</label>
         <input type="number" id="hourlyRate" name="hourlyRate" required><br><br>
-
-        <button type="submit">Tạo Dịch Vụ</button>
+        
+        <input type="hidden" name="action" value="createSV"/>
+        <button type="submit">Create</button>
     </form>
-
+        
     <br>
-    <a href="ViewServices.jsp">Trở về danh sách dịch vụ</a>
+    <a href="MainServlet?action=viewservice">Back</a>
 </body>
 </html>

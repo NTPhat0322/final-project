@@ -1,3 +1,4 @@
+<%@page import="model.Mechanic"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.ServiceTicketDetail"%>
 <%@page import="dao.ServiceTicketDAO"%>
@@ -7,18 +8,21 @@
     <title>Edit Service Ticket</title>
 </head>
 <body>
-    <h2>Edit Service Ticket</h2>
+    <h2>Update Service Ticket</h2>
     <%
-        int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+        HttpSession s = request.getSession();
+        Mechanic m = (Mechanic) s.getAttribute("mechanic");
+        String id = m.getId();
+        String ticketID = request.getParameter("ticketID");
         ServiceTicketDAO dao = new ServiceTicketDAO();
-        ServiceTicketDetail ticket = dao.getServiceTicketsDetailByMechanicID(ticketID);
+        ServiceTicketDetail ticket = dao.getServiceTicketsDetailByMechanicID(id, ticketID);
         if (ticket == null) {
     %>
         <h3>Ticket not found!</h3>
     <%
         } else {
     %>
-    <form action="UpdateServiceTicketServlet" method="POST">
+    <form action="MainServlet" method="POST">
         <input type="hidden" name="ticketID" value="<%= ticket.getServiceTicketID() %>">
         <label>Hours:</label>
         <input type="number" name="hours" value="<%= ticket.getHours() %>" required><br>
@@ -26,6 +30,7 @@
         <input type="text" name="comment" value="<%= ticket.getComment() %>" required><br>
         <label>Rate:</label>
         <input type="number" name="rate" step="0.1" value="<%= ticket.getRate() %>" required><br>
+        <input type="hidden" name="action" value="updateSTS"/>
         <input type="submit" value="Update">
     </form>
     <%

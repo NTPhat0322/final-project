@@ -192,6 +192,30 @@ public class MainServlet extends HttpServlet {
                 case "customerProfile":
                     url = "customerProfile.jsp";
                     break;
+                case "serviceTicketServlet":
+                    url = "serviceTicketsServlet" ; 
+                    break;
+                case "viewServiceticket":
+                    url = "ViewServiceTickets.jsp";
+                    break;
+                case "viewservice":
+                    url= "ViewServices.jsp" ;
+                    break;
+                case "updateSTS":
+                    url ="UpdateServiceTicketServlet";
+                    break;
+                case "edit":
+                    url = "editServiceTicket.jsp";
+                    break;
+                case "editServlet":
+                    url = "editServiceTicketServlet";
+                    break;
+                case "createService":
+                    url ="createService.jsp";
+                    break;
+                case "createSV":
+                    url = "CreateServiceServlet";
+                    break;
             }
             request.getRequestDispatcher(url).forward(request, response);
         }

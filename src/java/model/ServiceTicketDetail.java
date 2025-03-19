@@ -45,6 +45,18 @@ public class ServiceTicketDetail {
         this.price = price;
     }
 
+    public ServiceTicketDetail(String serviceTicketID, LocalDate dateReceived, LocalDate dateReturned, int carID, int custID, int hours, String comment, double rate) {
+        this.serviceTicketID = serviceTicketID;
+        this.dateReceived = dateReceived;
+        this.dateReturned = dateReturned;
+        this.carID = carID;
+        this.custID = custID;
+        this.hours = hours;
+        this.comment = comment;
+        this.rate = rate;
+    }
+    
+
     public String getServiceTicketID() {
         return serviceTicketID;
     }

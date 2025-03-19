@@ -8,30 +8,39 @@ import mylib.DBUtils;
 
 public class ServiceDAO {
 
-    public List<Service> getServicesByMechanic(String mechanicID) {
-        List<Service> list = new ArrayList<>();
-        String query = "SELECT s.serviceID, s.serviceName, s.hourlyRate \n"
-                + "                       FROM Service s \n"
-                + "                       JOIN [dbo].[ServiceMehanic] sm ON s.serviceID = sm.serviceID\n"
-                + "                       WHERE sm.mechanicID = ?";
+    public ArrayList<Service> getServicesByMechanic(String mechanicID) {
+        ArrayList<Service> services = new ArrayList<>();
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            String sql = "SELECT s.serviceID, s.serviceName, s.hourlyRate "
+                    + "FROM Service s "
+                    + "JOIN [dbo].[ServiceMehanic] sm ON s.serviceID = sm.serviceID "
+                    + "WHERE sm.mechanicID = ?";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, mechanicID);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    int serviceID = rs.getInt("serviceID");
+                    String serviceName = rs.getString("serviceName");
+                    double hourlyRate = rs.getDouble("hourlyRate");
 
-        try (Connection conn = DBUtils.getConnection();
-                PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setString(1, mechanicID);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                list.add(new Service(
-                        rs.getInt("serviceID"),
-                        rs.getString("serviceName"),
-                        rs.getDouble("hourlyRate")
-                ));
-
+                    services.add(new Service(serviceID, serviceName, hourlyRate));
+                }
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return list;
+        return services;
     }
 
     public boolean updateService(Service service) {
@@ -50,27 +59,56 @@ public class ServiceDAO {
         }
     }
 
-    public boolean addService(String serviceName, double hourlyRate) {
-        boolean isSuccess = false;
-        
-        // Câu lệnh SQL để thêm dịch vụ mới
-        String sql = "INSERT INTO Service (serviceName, hourlyRate) VALUES (?, ?)";
-
-        try (Connection conn = DBUtils.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            
-            ps.setString(1, serviceName);
-            ps.setDouble(2, hourlyRate);
-            
-            int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
-                isSuccess = true;
+    public int getNextServiceID() {
+        int nextID = 1;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            String sql = "SELECT MAX(serviceID) FROM Service";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            if (rs != null && rs.next()) {
+                nextID = rs.getInt(1) + 1;
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+        return nextID;
+    }
 
-        return isSuccess;
+    public boolean addService(String serviceName, double hourlyRate) {
+        boolean success = false;
+        Connection cn = null;
+        try {
+            int newID = getNextServiceID();
+            cn = DBUtils.getConnection();
+            String sql = "INSERT INTO Service (serviceID, serviceName, hourlyRate) VALUES (?, ?, ?)";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, newID);
+            pst.setString(2, serviceName);
+            pst.setDouble(3, hourlyRate);
+
+            success = pst.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return success;
     }
 
 }
