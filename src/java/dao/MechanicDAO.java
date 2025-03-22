@@ -78,23 +78,24 @@ public class MechanicDAO {
         }
         return list;
     }
-    public LinkedHashMap getMechanicGood(){
+
+    public LinkedHashMap getMechanicGood() {
         LinkedHashMap<String, Integer> rs = new LinkedHashMap<>();
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT TOP 3 B.mechanicName AS Mechanicname, COUNT(A.serviceTicketID) AS sl FROM ServiceMehanic A LEFT OUTER JOIN Mechanic B ON A.mechanicID = B.mechanicID\n" +
-                            "GROUP BY B.mechanicID, B.mechanicName\n" +
-                            "ORDER BY sl DESC";
+                String sql = "SELECT TOP 3 B.mechanicName AS Mechanicname, COUNT(A.serviceTicketID) AS sl FROM ServiceMehanic A LEFT OUTER JOIN Mechanic B ON A.mechanicID = B.mechanicID\n"
+                        + "GROUP BY B.mechanicID, B.mechanicName\n"
+                        + "ORDER BY sl DESC";
                 PreparedStatement pst = cn.prepareStatement(sql);
                 ResultSet table = pst.executeQuery();
-                if(table != null){
-                    while(table.next()){
+                if (table != null) {
+                    while (table.next()) {
                         rs.put(table.getString("Mechanicname"), table.getInt("sl"));
                     }
                 }
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,8 +108,41 @@ public class MechanicDAO {
                 e.printStackTrace();
             }
         }
-        
-        
+
         return rs;
+    }
+
+    public Mechanic getMechanicNameByServiceTicketID(String stid, String sid) {
+        Mechanic mc = null;
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "Select mechanicName from [dbo].[Mechanic] where mechanicID = (\n"
+                        + "select mechanicID from ServiceMehanic where serviceTicketID = ? and serviceID = ? );";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setString(1, stid);
+                pst.setString(2, sid);
+                ResultSet rs = pst.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String mechanicId = rs.getString("mechanicID");
+                        String mechanicname = rs.getString("mechanicName");
+                        mc = new Mechanic(mechanicId, mechanicname);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return mc;
     }
 }

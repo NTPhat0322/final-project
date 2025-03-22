@@ -9,20 +9,15 @@ import dao.ServiceDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.Mechanic;
-import model.Service;
 
 /**
  *
  * @author admin
  */
-@WebServlet(name = "CreateServiceServlet", urlPatterns = {"/CreateServiceServlet"})
-public class CreateServiceServlet extends HttpServlet {
+public class deleteServiceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,38 +33,31 @@ public class CreateServiceServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            Mechanic m = (Mechanic) session.getAttribute("mechanic");
-            if (m == null) {
-                response.sendRedirect("MainServlet?action=home");
-                return;
-            }
-            String mechanicID = m.getId();
-            String serviceName = request.getParameter("serviceName");
-            String serviceID_raw = request.getParameter("serviceID");
-            String hourlyRate_raw =request.getParameter("hourlyRate");
-            int serviceID;
-            double hourlyRate;
-            // Lưu dịch vụ mới vào cơ sở dữ liệu
-            ServiceDAO serviceDAO = new ServiceDAO();
+            String serviceIDStr = request.getParameter("serviceID");
+           
+        if (serviceIDStr != null) {
             try {
-                serviceID = Integer.parseInt(serviceID_raw);
-                hourlyRate = Double.parseDouble(hourlyRate_raw);
-                Service s = serviceDAO.getServiceBySVID(serviceID);
+                int serviceID = Integer.parseInt(serviceIDStr);
+                ServiceDAO serviceDAO = new ServiceDAO();
+                boolean success = serviceDAO.deleteServiceWithMechanic(serviceID);
 
-                if (s == null) {
-                    Service sNew = new Service(serviceID, serviceName, hourlyRate);
-                    serviceDAO.addService(serviceName, serviceID, hourlyRate);
-                    response.sendRedirect("MainServlet?action=viewservice");
+                if (success) {
+                    request.setAttribute("message", "Xóa dịch vụ thành công!");
                 } else {
-                    request.setAttribute("error", serviceID + "existed");
-                    request.getRequestDispatcher("MainServlet?action=createService").forward(request, response);
+                    request.setAttribute("error", "Không thể xóa dịch vụ.");
                 }
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
+                request.setAttribute("error", "Dịch vụ không hợp lệ.");
             }
-
+        } else {
+            request.setAttribute("error", "Thiếu mã dịch vụ.");
         }
+
+        // Chuyển hướng về danh sách dịch vụ
+        request.getRequestDispatcher("MainServlet?action=viewservice").forward(request, response);
     }
+        }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

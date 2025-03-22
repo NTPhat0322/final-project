@@ -194,7 +194,7 @@ public class ServiceTicketDAO {
                             rs.getString("serviceTicketID"),
                             rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
                             rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
-                            rs.getInt("carID"),
+                            rs.getString("carID"),
                             rs.getInt("custID"),
                             rs.getInt("hours"),
                             rs.getString("comment"),
@@ -247,26 +247,24 @@ public class ServiceTicketDAO {
         }
     }
 
-    public void updateServiceTicket(String ticketID, int hours, String comment, Double rate) {
-        String sql = "UPDATE ServiceMehanic SET hours = ?, comment = ?, rate = ? WHERE serviceTicketID = ?";
+    public boolean updateServiceTicket(String serviceTicketID, String serviceID, int hours, double rate, String comment) {
+        String sql = "UPDATE [dbo].[ServiceMehanic] SET hours = ?, rate = ?, comment = ? WHERE serviceTicketID = ? AND serviceID = ?";
 
         try (Connection conn = DBUtils.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, hours);
-            stmt.setString(2, (comment != null) ? comment : "");
-            stmt.setDouble(3, rate);
-            stmt.setString(4, ticketID);
+            ps.setInt(1, hours);
+            ps.setDouble(2, rate);
+            ps.setString(3, comment);
+            ps.setString(4, serviceTicketID);
+            ps.setString(5, serviceID);
 
-            int rowsUpdated = stmt.executeUpdate();
-            if (rowsUpdated > 0) {
-                System.out.println("Cập nhật thành công!");
-            } else {
-                System.out.println("Không tìm thấy vé dịch vụ để cập nhật!");
-            }
+            int updatedRows = ps.executeUpdate();
+            return updatedRows > 0;
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public List<ServiceTicket> getServices(int custID) {
@@ -348,7 +346,7 @@ public class ServiceTicketDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, st.custID, st.carID, \n"
+                String sql = "SELECT st.serviceTicketID,sm.serviceID, st.dateReceived, st.dateReturned, st.custID, st.carID, \n"
                         + "                       sm.hours, sm.comment, s.[hourlyRate] \n"
                         + "                       FROM [dbo].[ServiceMehanic] sm \n"
                         + "                       JOIN ServiceTicket st ON sm.serviceTicketID = st.serviceTicketID \n"
@@ -361,9 +359,10 @@ public class ServiceTicketDAO {
 
                 while (rs.next()) {
                     list.add(new ServiceTicketDetail(rs.getString("serviceTicketID"),
+                            rs.getString("serviceID"),
                             rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
                             rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
-                            rs.getInt("carID"),
+                            rs.getString("carID"),
                             rs.getInt("custID"),
                             rs.getInt("hours"),
                             rs.getString("comment"),
@@ -395,7 +394,7 @@ public class ServiceTicketDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, st.custID, st.carID, "
+                String sql = "SELECT st.serviceTicketID,sm.serviceID, st.dateReceived, st.dateReturned, st.custID, st.carID, "
                         + "sm.hours, sm.comment, s.hourlyRate "
                         + "FROM ServiceMechanic sm "
                         + "JOIN ServiceTicket st ON sm.serviceTicketID = st.serviceTicketID "
@@ -440,9 +439,10 @@ public class ServiceTicketDAO {
                 while (rs.next()) {
                     list.add(new ServiceTicketDetail(
                             rs.getString("serviceTicketID"),
+                            rs.getString("serviceID"),
                             rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
                             rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
-                            rs.getInt("carID"),
+                            rs.getString("carID"),
                             rs.getInt("custID"),
                             rs.getInt("hours"),
                             rs.getString("comment"),
@@ -465,7 +465,7 @@ public class ServiceTicketDAO {
 
         return list;
     }
-    
+
     public ServiceTicketDetail getServiceTicketsDetailByMechanicID(String id, String ticketID) {
         ServiceTicketDetail s = new ServiceTicketDetail();
         Connection cn = null;
@@ -473,7 +473,7 @@ public class ServiceTicketDAO {
         try {
             cn = DBUtils.getConnection();
             if (cn != null) {
-                String sql = "SELECT st.serviceTicketID, st.dateReceived, st.dateReturned, st.custID, st.carID, \n"
+                String sql = "SELECT st.serviceTicketID,sm.serviceID, st.dateReceived, st.dateReturned, st.custID, st.carID, \n"
                         + "                       sm.hours, sm.comment, s.[hourlyRate] \n"
                         + "                       FROM [dbo].[ServiceMehanic] sm \n"
                         + "                       JOIN ServiceTicket st ON sm.serviceTicketID = st.serviceTicketID \n"
@@ -486,10 +486,11 @@ public class ServiceTicketDAO {
                 ResultSet rs = pst.executeQuery();
 
                 while (rs.next()) {
-                            s = new ServiceTicketDetail(rs.getString("serviceTicketID"),
+                    s = new ServiceTicketDetail(rs.getString("serviceTicketID"),
+                            rs.getString("serviceID"),
                             rs.getDate("dateReceived") != null ? rs.getDate("dateReceived").toLocalDate() : null,
                             rs.getDate("dateReturned") != null ? rs.getDate("dateReturned").toLocalDate() : null,
-                            rs.getInt("carID"),
+                            rs.getString("carID"),
                             rs.getInt("custID"),
                             rs.getInt("hours"),
                             rs.getString("comment"),

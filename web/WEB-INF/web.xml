@@ -109,8 +109,6 @@
     <servlet>
         <servlet-name>CreateServiceServlet</servlet-name>
         <servlet-class>controller.CreateServiceServlet</servlet-class>
-        <servlet-name>LoginCustServlet</servlet-name>
-        <servlet-class>controller.LoginCustServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LogoutCustomerServlet</servlet-name>
@@ -123,6 +121,10 @@
     <servlet>
         <servlet-name>ViewInvoiceServlet</servlet-name>
         <servlet-class>controller.ViewInvoiceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteServiceServlet</servlet-name>
+        <servlet-class>controller.deleteServiceServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginStaffServlet</servlet-name>
@@ -223,8 +225,6 @@
     <servlet-mapping>
         <servlet-name>CreateServiceServlet</servlet-name>
         <url-pattern>/CreateServiceServlet</url-pattern>
-        <servlet-name>LoginCustServlet</servlet-name>
-        <url-pattern>/LoginCustServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LogoutCustomerServlet</servlet-name>
@@ -237,6 +237,10 @@
     <servlet-mapping>
         <servlet-name>ViewInvoiceServlet</servlet-name>
         <url-pattern>/ViewInvoiceServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteServiceServlet</servlet-name>
+        <url-pattern>/deleteServiceServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

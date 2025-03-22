@@ -17,9 +17,10 @@ public class ServiceTicketDetail {
     private String serviceTicketID;
     private LocalDate dateReceived;
     private LocalDate dateReturned;
-    private int carID;
+    private String carID;
     private int custID;
     private int hours;
+    private String serviceID;
     private String comment;
     private double rate;
     private String mechanicName;
@@ -30,7 +31,7 @@ public class ServiceTicketDetail {
     public ServiceTicketDetail() {
     }
 
-    public ServiceTicketDetail(String serviceTicketID, LocalDate dateReceived, LocalDate dateReturned, int carID, int custID, int hours, String comment, double rate, String mechanicName, String serviceName, String partName, double price) {
+    public ServiceTicketDetail(String serviceTicketID, LocalDate dateReceived, LocalDate dateReturned, String carID, int custID, int hours, String comment, double rate, String mechanicName, String serviceName, String partName, double price) {
         this.serviceTicketID = serviceTicketID;
         this.dateReceived = dateReceived;
         this.dateReturned = dateReturned;
@@ -45,8 +46,19 @@ public class ServiceTicketDetail {
         this.price = price;
     }
 
-    public ServiceTicketDetail(String serviceTicketID, LocalDate dateReceived, LocalDate dateReturned, int carID, int custID, int hours, String comment, double rate) {
+    public ServiceTicketDetail(String serviceTicketID, LocalDate dateReceived, LocalDate dateReturned, String carID, int custID, int hours, String comment, double rate) {
         this.serviceTicketID = serviceTicketID;
+        this.dateReceived = dateReceived;
+        this.dateReturned = dateReturned;
+        this.carID = carID;
+        this.custID = custID;
+        this.hours = hours;
+        this.comment = comment;
+        this.rate = rate;
+    }
+    public ServiceTicketDetail(String serviceTicketID, String serviceID, LocalDate dateReceived, LocalDate dateReturned, String carID, int custID, int hours, String comment, double rate) {
+        this.serviceTicketID = serviceTicketID;
+        this.serviceID = serviceID;
         this.dateReceived = dateReceived;
         this.dateReturned = dateReturned;
         this.carID = carID;
@@ -81,11 +93,11 @@ public class ServiceTicketDetail {
         this.dateReturned = dateReturned;
     }
 
-    public int getCarID() {
+    public String getCarID() {
         return carID;
     }
 
-    public void setCarID(int carID) {
+    public void setCarID(String carID) {
         this.carID = carID;
     }
 
@@ -152,6 +164,15 @@ public class ServiceTicketDetail {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public String getServiceID() {
+        return serviceID;
+    }
+
+    public void setServiceID(String serviceID) {
+        this.serviceID = serviceID;
+    }
+    
 
     @Override
     public String toString() {

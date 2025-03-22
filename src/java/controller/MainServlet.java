@@ -48,9 +48,6 @@ public class MainServlet extends HttpServlet {
                 case "loginStaffForm":
                     url = "loginstaffpage.jsp";
                     break;
-                case "loginCust":
-                    url = "LoginCustServlet";
-                    break;
                 case "loginStaff":
                     url = "LoginStaffServlet";
                     break;
@@ -156,9 +153,6 @@ public class MainServlet extends HttpServlet {
                 case "loginMechanic":
                     url = "LoginMechanic.jsp";
                     break;
-                case "updateServiceTicket":
-                    url = "updateServiceTicketPage.jsp";
-                    break;
                 case "editServiceTicket":
                     url = "editServiceTicketServlet";
                     break;
@@ -187,7 +181,7 @@ public class MainServlet extends HttpServlet {
                     url = "HomeCustomer.jsp";
                     break;
                 case "UpdateCustomerServlet":
-                    url = "UpdateCustomerServlet";
+                    url = "UpdateCustomerServletviewServiceticket";
                     break;
                 case "customerProfile":
                     url = "customerProfile.jsp";
@@ -213,7 +207,7 @@ public class MainServlet extends HttpServlet {
                 case "createService":
                     url ="createService.jsp";
                     break;
-                case "createSV":
+                case "CreateServiceServlet":
                     url = "CreateServiceServlet";
                     break;
                 case "CustomerViewServiceTicket":
@@ -221,6 +215,12 @@ public class MainServlet extends HttpServlet {
                     break;
                 case "customerprofile":
                     url = "customerProfile.jsp";
+                    break;
+                case "updateservice":
+                    url = "updateServiceActionServlet";
+                    break;
+                case "deleteService":
+                    url = "deleteServiceServlet";
                     break;
             }
             request.getRequestDispatcher(url).forward(request, response);

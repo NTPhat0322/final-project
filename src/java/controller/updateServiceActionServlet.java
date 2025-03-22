@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import model.Mechanic;
 import model.Service;
 
@@ -21,8 +20,8 @@ import model.Service;
  *
  * @author admin
  */
-@WebServlet(name = "CreateServiceServlet", urlPatterns = {"/CreateServiceServlet"})
-public class CreateServiceServlet extends HttpServlet {
+@WebServlet(name = "updateServiceActionServlet", urlPatterns = {"/updateServiceActionServlet"})
+public class updateServiceActionServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,38 +35,59 @@ public class CreateServiceServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession session = request.getSession();
-            Mechanic m = (Mechanic) session.getAttribute("mechanic");
+            Mechanic m = (Mechanic) request.getSession().getAttribute("mechanic");
             if (m == null) {
                 response.sendRedirect("MainServlet?action=home");
                 return;
             }
-            String mechanicID = m.getId();
+            String serviceIDStr = request.getParameter("serviceID");
             String serviceName = request.getParameter("serviceName");
-            String serviceID_raw = request.getParameter("serviceID");
-            String hourlyRate_raw =request.getParameter("hourlyRate");
+            String hourlyRateStr = request.getParameter("hourlyRate");
             int serviceID;
             double hourlyRate;
             // Lưu dịch vụ mới vào cơ sở dữ liệu
             ServiceDAO serviceDAO = new ServiceDAO();
+
             try {
-                serviceID = Integer.parseInt(serviceID_raw);
-                hourlyRate = Double.parseDouble(hourlyRate_raw);
-                Service s = serviceDAO.getServiceBySVID(serviceID);
-
-                if (s == null) {
-                    Service sNew = new Service(serviceID, serviceName, hourlyRate);
-                    serviceDAO.addService(serviceName, serviceID, hourlyRate);
-                    response.sendRedirect("MainServlet?action=viewservice");
-                } else {
-                    request.setAttribute("error", serviceID + "existed");
-                    request.getRequestDispatcher("MainServlet?action=createService").forward(request, response);
+                serviceID = Integer.parseInt(serviceIDStr);
+                hourlyRate = Double.parseDouble(hourlyRateStr);
+                if (hourlyRate <= 0) {
+                    request.setAttribute("error", "Giá dịch vụ phải lớn hơn 0.");
+                    request.getRequestDispatcher("MainServlet?action=viewservice").forward(request, response);
+                    return;
                 }
-            } catch (Exception e) {
-            }
 
+                // Lấy thông tin dịch vụ hiện tại
+                Service existingService = serviceDAO.getServiceById(serviceID);
+                if (existingService == null) {
+                    request.setAttribute("error", "Dịch vụ không tồn tại.");
+                    request.getRequestDispatcher("MainServlet?action=viewservice").forward(request, response);
+                    return;
+                }
+
+                // Kiểm tra xem dữ liệu có thay đổi không
+                if (existingService.getServiceName().equals(serviceName) && existingService.getHourlyRate() == hourlyRate) {
+                    request.setAttribute("message", "Không có thay đổi nào được thực hiện.");
+                    request.getRequestDispatcher("MainServlet?action=viewservice").forward(request, response);
+                    return;
+                }
+                Service updatedService = new Service(serviceID, serviceName, hourlyRate);
+                boolean success = serviceDAO.updateService(updatedService);
+
+                if (success) {
+                    request.setAttribute("message", "Cập nhật dịch vụ thành công!");
+                } else {
+                    request.setAttribute("error", "Cập nhật dịch vụ thất bại.");
+                }
+                request.getRequestDispatcher("MainServlet?action=viewservice").forward(request, response);
+
+            } catch (NumberFormatException e) {
+                request.setAttribute("error", "Dữ liệu nhập không hợp lệ.");
+                request.getRequestDispatcher("MainServlet?action=viewservice").forward(request, response);
+            }
         }
     }
 

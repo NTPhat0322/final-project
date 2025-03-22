@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.ServiceTicket;
 import model.ServiceTicketDetail;
 
@@ -39,21 +40,65 @@ public class editServiceTicketServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            String ticketID = request.getParameter("ticketID");
-            int hours = Integer.parseInt(request.getParameter("hours"));
-            String comment = request.getParameter("comment");
-            double rate = Double.parseDouble(request.getParameter("rate"));
-            
-            ServiceTicketDAO dao = new ServiceTicketDAO();
-            dao.updateServiceTicket(ticketID, hours, comment, rate);
-            
-            response.sendRedirect("MainServlet?action=viewServiceticket"); // Quay lại danh sách
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.getWriter().println("Error updating service ticket.");
-        }
+            HttpSession sesion = request.getSession();
+            ServiceTicketDetail std = (ServiceTicketDetail) sesion.getAttribute("ticket");
+            if (std == null) {
+                response.sendRedirect("MainServlet?action=home");
+                return;
+            }
 
-        
+            String ticketID = request.getParameter("ticketID");
+            if (ticketID == null || ticketID.isEmpty()) {
+                response.sendRedirect("MainServlet?action=edit&error=Missing ticket ID");
+                return;
+            }
+
+            ServiceTicketDAO dao = new ServiceTicketDAO();
+            ServiceTicket ticket = dao.getServiceTicketById(ticketID);
+            if (ticket == null) {
+                response.sendRedirect("MainServlet?action=edit&ticketID=" + ticketID + "&error=Ticket not found");
+                return;
+            }
+
+            // Lấy dữ liệu hiện tại
+            int hours = std.getHours();
+            double rating = std.getRate();
+            String comments = std.getComment();
+            String serviceID = std.getServiceID(); // Lấy serviceID từ session object
+
+            // Kiểm tra nếu request có giá trị mới
+            try {
+                String hoursStr = request.getParameter("hours");
+                String ratingStr = request.getParameter("rating");
+
+                if (hoursStr != null && !hoursStr.isEmpty()) {
+                    hours = Integer.parseInt(hoursStr);
+                }
+                if (ratingStr != null && !ratingStr.isEmpty()) {
+                    rating = Double.parseDouble(ratingStr);
+                }
+            } catch (NumberFormatException e) {
+                response.sendRedirect("MainServlet?action=edit&ticketID=" + ticketID + "&error=Invalid input for hours or rating");
+                return;
+            }
+
+            if (request.getParameter("comments") != null) {
+                String inputComment = request.getParameter("comments").trim();
+                if (inputComment.isEmpty()) {
+                    comments = null;
+                } else {
+                    comments = inputComment;
+                }
+            }
+            // Gọi DAO để cập nhật ticket
+            boolean updated = dao.updateServiceTicket(ticketID, serviceID, hours, rating, comments);
+
+            if (updated) {
+                response.sendRedirect("MainServlet?action=viewServiceticket&success=true");
+            } else {
+                response.sendRedirect("MainServlet?action=edit&ticketID=" + ticketID + "&error=Could not update the service ticket.");
+            }
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

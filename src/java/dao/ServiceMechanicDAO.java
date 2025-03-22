@@ -25,7 +25,7 @@ public class ServiceMechanicDAO {
                     rs.getString("serviceID"),
                     rs.getDouble("hours"),
                     rs.getString("comment"),
-                    rs.getBigDecimal("rate")
+                    rs.getDouble("rate")
                 ));
             }
         } catch (SQLException | ClassNotFoundException e) {

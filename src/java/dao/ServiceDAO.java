@@ -45,7 +45,7 @@ public class ServiceDAO {
 
     public boolean updateService(Service service) {
         try (Connection conn = DBUtils.getConnection()) {
-            String sql = "UPDATE services SET serviceName = ?, hourlyRate = ? WHERE serviceID = ?";
+            String sql = "UPDATE Service SET serviceName = ?, hourlyRate = ? WHERE serviceID = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, service.getServiceName());
             stmt.setDouble(2, service.getHourlyRate());
@@ -59,16 +59,40 @@ public class ServiceDAO {
         }
     }
 
-    public int getNextServiceID() {
-        int nextID = 1;
+    public void addService(String serviceName, int serviceID, double hourlyRate) {
         Connection cn = null;
         try {
             cn = DBUtils.getConnection();
-            String sql = "SELECT MAX(serviceID) FROM Service";
+            String sql = "INSERT INTO Service (serviceID, serviceName, hourlyRate) VALUES (?, ?, ?)";
             PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setInt(1, serviceID);
+            pst.setString(2, serviceName);
+            pst.setDouble(3, hourlyRate);
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getServiceNameByServiceID(String svid) {
+        String t = "";
+        Connection cn = null;
+        try {
+            cn = DBUtils.getConnection();
+            String sql = "Select serviceName from Service where serviceID = ?";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            pst.setString(1, svid);
             ResultSet rs = pst.executeQuery();
-            if (rs != null && rs.next()) {
-                nextID = rs.getInt(1) + 1;
+            if (rs.next()) {
+                t = rs.getString("serviceName");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,22 +105,87 @@ public class ServiceDAO {
                 e.printStackTrace();
             }
         }
-        return nextID;
+
+        return t;
     }
 
-    public boolean addService(String serviceName, double hourlyRate) {
-        boolean success = false;
+    public Service getServiceBySVID(int id) {
         Connection cn = null;
-        try {
-            int newID = getNextServiceID();
-            cn = DBUtils.getConnection();
-            String sql = "INSERT INTO Service (serviceID, serviceName, hourlyRate) VALUES (?, ?, ?)";
-            PreparedStatement pst = cn.prepareStatement(sql);
-            pst.setInt(1, newID);
-            pst.setString(2, serviceName);
-            pst.setDouble(3, hourlyRate);
+        Service s = null;
 
-            success = pst.executeUpdate() > 0;
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "Select * from Service where serviceID = ? ;";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, id);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    s = new Service(rs.getInt("serviceID"),
+                            rs.getString("serviceName"),
+                            rs.getDouble("hourlyRate"));
+                    return s;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public Service getServiceById(int serviceID) {
+        Connection cn = null;
+        Service s = null;
+
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "SELECT * FROM Service WHERE serviceID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, serviceID);
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    s = new Service(rs.getInt("serviceID"),
+                            rs.getString("serviceName"),
+                            rs.getDouble("hourlyRate"));
+                    return s;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) {
+                    cn.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public boolean deleteService(int serviceID) {
+        Connection cn = null;
+        boolean success = false;
+
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "DELETE FROM Service WHERE serviceID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, serviceID);
+                success = pst.executeUpdate() > 0;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -109,6 +198,37 @@ public class ServiceDAO {
             }
         }
         return success;
+    }
+    
+    public boolean deleteServiceMechanic(int serviceID) {
+        Connection cn = null;
+        boolean success = false;
+
+        try {
+            cn = DBUtils.getConnection();
+            if (cn != null) {
+                String sql = "DELETE FROM ServiceMehanic WHERE serviceID = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setInt(1, serviceID);
+                success = pst.executeUpdate() > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (cn != null) cn.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return success;
+    }
+    
+    public boolean deleteServiceWithMechanic(int serviceID) {
+        boolean deletedMechanic = deleteServiceMechanic(serviceID); // Bước 1: Xóa ServiceMechanic
+        boolean deletedService = deleteService(serviceID); // Bước 2: Xóa Service
+
+        return deletedService; // Trả về kết quả cuối cùng
     }
 
 }

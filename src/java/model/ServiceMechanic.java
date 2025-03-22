@@ -3,19 +3,21 @@ package model;
 import java.math.BigDecimal;
 
 public class ServiceMechanic {
+
     private String mechanicID;
     private String serviceTicketID;
     private String serviceID;
     private double hours;
     private String comment;
-    private BigDecimal rate; // Thay đổi kiểu dữ liệu từ int -> BigDecimal
+    private Double rate; // Thay đổi kiểu dữ liệu từ int -> BigDecimal
     private String serviceName;
+
     public String getServiceName() {
-    return serviceName;
-}
+        return serviceName;
+    }
 
     // Constructor
-    public ServiceMechanic(String mechanicID, String serviceTicketID, String serviceID, double hours, String comment, BigDecimal rate) {
+    public ServiceMechanic(String mechanicID, String serviceTicketID, String serviceID, double hours, String comment, Double rate) {
         this.mechanicID = mechanicID;
         this.serviceTicketID = serviceTicketID;
         this.serviceID = serviceID;
@@ -65,24 +67,24 @@ public class ServiceMechanic {
         this.comment = comment;
     }
 
-    public BigDecimal getRate() {
+    public double getRate() {
         return rate;
     }
 
-    public void setRate(BigDecimal rate) {
+    public void setRate(double rate) {
         this.rate = rate;
     }
 
     // toString() để debug dễ dàng hơn
     @Override
     public String toString() {
-        return "ServiceMechanic{" +
-                "mechanicID='" + mechanicID + '\'' +
-                ", serviceTicketID='" + serviceTicketID + '\'' +
-                ", serviceID='" + serviceID + '\'' +
-                ", hours=" + hours +
-                ", comment='" + comment + '\'' +
-                ", rate=" + rate +
-                '}';
+        return "ServiceMechanic{"
+                + "mechanicID='" + mechanicID + '\''
+                + ", serviceTicketID='" + serviceTicketID + '\''
+                + ", serviceID='" + serviceID + '\''
+                + ", hours=" + hours
+                + ", comment='" + comment + '\''
+                + ", rate=" + rate
+                + '}';
     }
 }

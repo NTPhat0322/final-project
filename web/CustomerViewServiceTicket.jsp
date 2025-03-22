@@ -24,9 +24,9 @@
             Customer customer = (Customer) s.getAttribute("customer");
             if (customer == null) {
         %>
-        <p>Bạn chưa đăng nhập. Vui lòng <a href="loginCustomer.jsp">đăng nhập</a> để xem phiếu dịch vụ.</p>
+        <p>Bạn chưa đăng nhập. Vui lòng <a href="MainServlet?action=loginCustForm">đăng nhập</a> để xem phiếu dịch vụ.</p>
         <%
-                return; // Dừng hiển thị tiếp nội dung nếu chưa đăng nhập
+                return;
             }
 
             // Lấy danh sách phiếu dịch vụ từ DAO
@@ -45,7 +45,7 @@
                 <th>dateReceived</th>
                 <th>dateReturned</th>
                 <th>carID</th>
-                <th>View More</th>
+                <th>Action</th>
             </tr>
             <%
                 for (ServiceTicket ticket : tickets) {
@@ -60,7 +60,7 @@
                         View Detail
                     </a>
                 </td>
-
+                
             </tr>
             <%
                 }
@@ -69,6 +69,6 @@
         <%
             }
         %>
-
+        <a href="MainServlet?action=homecust">Back</a>
     </body>
 </html>
