@@ -35,40 +35,40 @@
                        value="<%= request.getParameter("searchDate") != null ? request.getParameter("searchDate") : ""%>">
                 <input type ="hidden" name ="action" value="viewServiceticket"/>
                 <button type="submit">Search</button>
-               
+
             </form>
 
             <%
                 HttpSession s = request.getSession();
                 Mechanic mechanic = (Mechanic) s.getAttribute("mechanic");
                 if (mechanic == null) {
-            %>
-            <h3 style="text-align: center; color: red;">You are not authorized to view this page.</h3>
-            <%
-            } else {
-                String mechanicID = mechanic.getId();
-                ServiceTicketDAO dao = new ServiceTicketDAO();
-                List<ServiceTicketDetail> tickets = dao.getListServiceTicketsDetailByMechanicID(mechanicID);
+                    response.sendRedirect("MainServlet?action=home");
+                    return;
 
-                // Lấy giá trị tìm kiếm từ request
-                String searchValue = request.getParameter("searchValue");
-                String searchDate = request.getParameter("searchDate");
+                } else {
+                    String mechanicID = mechanic.getId();
+                    ServiceTicketDAO dao = new ServiceTicketDAO();
+                    List<ServiceTicketDetail> tickets = dao.getListServiceTicketsDetailByMechanicID(mechanicID);
 
-                // Danh sách kết quả lọc
-                List<ServiceTicketDetail> filteredTickets = new ArrayList<>();
+                    // Lấy giá trị tìm kiếm từ request
+                    String searchValue = request.getParameter("searchValue");
+                    String searchDate = request.getParameter("searchDate");
 
-                for (ServiceTicketDetail ticket : tickets) {
-                    boolean matchValue = (searchValue == null || searchValue.isEmpty())
-                            || ticket.getCarID().equalsIgnoreCase(searchValue)
-                            || ticket.getCustID() == Integer.parseInt(searchValue);
+                    // Danh sách kết quả lọc
+                    List<ServiceTicketDetail> filteredTickets = new ArrayList<>();
 
-                    boolean matchDate = (searchDate == null || searchDate.isEmpty())
-                            || ticket.getDateReceived().equals(searchDate);
+                    for (ServiceTicketDetail ticket : tickets) {
+                        boolean matchValue = (searchValue == null || searchValue.isEmpty())
+                                || ticket.getCarID().equalsIgnoreCase(searchValue)
+                                || ticket.getCustID() == Integer.parseInt(searchValue);
 
-                    if (matchValue && matchDate) {
-                        filteredTickets.add(ticket);
+                        boolean matchDate = (searchDate == null || searchDate.isEmpty())
+                                || ticket.getDateReceived().equals(searchDate);
+
+                        if (matchValue && matchDate) {
+                            filteredTickets.add(ticket);
+                        }
                     }
-                }
             %>
 
             <table>

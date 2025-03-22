@@ -9,6 +9,7 @@ import dao.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +20,8 @@ import model.Customer;
  *
  * @author admin
  */
-public class UpdateCustomerServlet extends HttpServlet {
+@WebServlet("/UpdateCustomerServletviewServiceticket")
+public class UpdateCustomerServletviewServiceticket extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +50,10 @@ public class UpdateCustomerServlet extends HttpServlet {
 
             if (success) {
                 session.setAttribute("updateStatus", "Update successful!");
-                response.sendRedirect("MainServlet?action=customerProfile"); 
+                request.getRequestDispatcher("MainServlet?action=customerProfile").forward(request, response); 
             } else {
                 session.setAttribute("updateStatus", "Update failed. Please try again.");
-                response.sendRedirect("customerProfile.jsp"); // Quay lại trang cập nhật
+                request.getRequestDispatcher("MainServlet?action=customerProfile").forward(request, response); // Quay lại trang cập nhật
             }
         }
     }

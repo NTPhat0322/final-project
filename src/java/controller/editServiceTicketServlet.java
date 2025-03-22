@@ -94,7 +94,7 @@ public class editServiceTicketServlet extends HttpServlet {
             boolean updated = dao.updateServiceTicket(ticketID, serviceID, hours, rating, comments);
 
             if (updated) {
-                response.sendRedirect("MainServlet?action=viewServiceticket&success=true");
+                request.getRequestDispatcher("MainServlet?action=viewServiceticket&success=true").forward(request, response);
             } else {
                 response.sendRedirect("MainServlet?action=edit&ticketID=" + ticketID + "&error=Could not update the service ticket.");
             }

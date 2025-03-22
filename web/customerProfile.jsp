@@ -26,10 +26,11 @@
             Customer ID: <input type="text" name="custID" value="<%= customer.getCustID()%>" readonly><br>
             Name: <input type="text" name="custName" value="<%= customer.getCustName()%>" required><br>
             Phone: <input type="text" name="phone" value="<%= customer.getCustPhone()%>" required><br>
-            Sex: <input type="text" name="sex" value="<%= customer.getCustSex()%>" required><br>
+            Sex: <input type="text" name="sex" value="<%= customer.getCustSex().trim()%>" required><br>
             Address: <input type="text" name="cusAddress" value="<%= customer.getCustAddress()%>" required><br>
-            <input type="submit" value="Update">
             <input type="hidden" name ="action" value="UpdateCustomerServlet"/>
+            <input type="submit" value="Update">
+            
         </form>
         
             <a href ="MainServlet?action=homecust">Back</a>

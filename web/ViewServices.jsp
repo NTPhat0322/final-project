@@ -142,9 +142,10 @@
             <tr>
                 <td><%= service.getServiceID()%></td>
                 <td>
-                    <form action="MainServlet?action=updateservice" accept-charset="UTF-8">
+                    <form action="MainServlet" accept-charset="UTF-8">
                         <input type="hidden" name="serviceID" value="<%= service.getServiceID()%>">
                         <input type="text" name="serviceName" value="<%= service.getServiceName()%>" required>
+                        <input type="hidden" name="action" value="updateservice"/>
                 </td>
                 <td>
                     <input type="number" name="hourlyRate" value="<%= service.getHourlyRate()%>" required>
