@@ -18,6 +18,10 @@
                 justify-content: space-between;
                 align-items: center;
             }
+            
+            .logout-btn {
+                width: 100px;      
+            }
 
             .container {
                 max-width: 600px; /* Giới hạn chiều rộng */
@@ -77,7 +81,7 @@
                 <div class="head-page">
                     <h1>Welcome to sale person dashboard</h1>
                     <form>
-                        <div><input type="submit" name="action" value="logout"></div>
+                        <div><input class="logout-btn" type="submit" name="action" value="logout"></div>
                     </form>
                 </div>
 

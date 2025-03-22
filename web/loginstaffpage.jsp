@@ -53,20 +53,23 @@
                 background-color: #0056b3;
             }
             .login-form .error-message {
-                color: #ff0000;
+                color: red;
                 font-size: 14px;
                 text-align: center;
+            }
+            .back-btn a{
+                text-decoration: none;
+                color: black;
             }
         </style>
     </head>
     <body>     
+        <div class="back-btn"><a href="MainServlet?action=home">BACK HOME</a></div>
         <form action="MainServlet" accept-charset="UTF-8" class="login-form">
             <label for="staff_name">Staff name</label>
             <div><input type="text" id="staff_name" name="txtname" placeholder="Enter staff's name" required></div>
             <div><input type="submit" value="Login"></div>
             <input type="hidden" name="action" value="loginStaff"> 
-
-        </form>
        
             <div class="error-message">
                 <% if (request.getAttribute("result") != null) {
